@@ -847,3 +847,41 @@
 15:36:35 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
 15:36:35 - [^_^]: [32mKM Algorithm took 2ms[39m
 15:36:35 - [^_^]: [31mfile_99: time: 5.304s  ,  failed_count: 2[39m
+15:54:41 - [^_^]: [32mText Length: 128[39m
+15:54:43 - [^_^]: [32mEmbedding...[39m
+15:54:48 - [^_^]: [32mEmbedding done in 5025ms[39m
+15:54:48 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:62[39m
+15:54:48 - [^_^]: [32mKM Algorithm took 8ms[39m
+15:54:48 - [^_^]: [31mfile_16: time: 7.164s  ,  failed_count: 4[39m
+15:54:48 - [^_^]: [32mText Length: 128[39m
+16:01:39 - [^_^]: [32mText Length: 128[39m
+16:01:41 - [^_^]: [32mEmbedding...[39m
+16:01:46 - [^_^]: [32mEmbedding done in 4985ms[39m
+16:01:46 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:63[39m
+16:01:46 - [^_^]: [32mKM Algorithm took 8ms[39m
+16:01:46 - [^_^]: [31mfile_16: time: 6.768s  ,  failed_count: 2[39m
+16:01:46 - [^_^]: [32mText Length: 128[39m
+16:01:47 - [^_^]: [32mEmbedding...[39m
+16:01:51 - [^_^]: [32mEmbedding done in 3856ms[39m
+16:01:51 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:66[39m
+16:01:51 - [^_^]: [32mKM Algorithm took 5ms[39m
+16:01:51 - [^_^]: [31mfile_17: time: 5.021s  ,  failed_count: 4[39m
+16:01:51 - [^_^]: [32mText Length: 128[39m
+16:01:53 - [^_^]: [32mEmbedding...[39m
+16:01:56 - [^_^]: [32mEmbedding done in 3233ms[39m
+16:01:56 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+16:01:56 - [^_^]: [32mKM Algorithm took 3ms[39m
+16:01:56 - [^_^]: [31mfile_18: time: 4.739s  ,  failed_count: 2[39m
+16:01:56 - [^_^]: [32mText Length: 128[39m
+16:01:57 - [^_^]: [32mEmbedding...[39m
+16:02:01 - [^_^]: [32mEmbedding done in 3408ms[39m
+16:02:01 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+16:02:01 - [^_^]: [32mKM Algorithm took 3ms[39m
+16:02:01 - [^_^]: [31mfile_19: time: 4.612s  ,  failed_count: 2[39m
+16:02:01 - [^_^]: [32mText Length: 128[39m
+16:02:02 - [^_^]: [32mEmbedding...[39m
+16:02:05 - [^_^]: [32mEmbedding done in 3669ms[39m
+16:02:05 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:65[39m
+16:02:05 - [^_^]: [32mKM Algorithm took 3ms[39m
+16:02:05 - [^_^]: [31mfile_20: time: 4.844s  ,  failed_count: 4[39m
+16:24:03 - [^_^]: [32mServer is running on http://localhost:8989[39m
