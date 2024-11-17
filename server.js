@@ -19,7 +19,6 @@ const readfile = async (file_index) => {
 
 const engine = async (file_index) => {
     const startTime = new Date().getTime();
-
     const data = await readfile(file_index);
     const texts = data['texts'];
     const true_q_indices = data["q_indices"];
@@ -38,13 +37,18 @@ const engine = async (file_index) => {
 
     const endTime = new Date().getTime(); 
     logger.error(`file_${file_index}: time: ${(endTime - startTime)/1000}s  ,  failed_count: ${fail_cnt}`)
+    return fail_cnt;
 }
 
 const main = async () => {
     
-    for(let i = 0; i < 10; i++) {
-        await engine(i);
+    let truefile_cnt = 0;
+    for(let i = 16; i < 21; i++) {
+        let fail_cnt = await engine(i);
+        if(fail_cnt == 0) truefile_cnt++;
     }
+
+    console.log(`Success! ${truefile_cnt}`);
 
 }
 

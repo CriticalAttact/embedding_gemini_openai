@@ -7,6 +7,7 @@ import { KMMatcher } from "./KM_new.js"
 import { embedding } from "./gemini.js"
 import { logger } from "./logger.js";
 import { message } from "./openai_msg.js"
+import { sleep } from './utils.js';
 
 const TEXT_ARRAY_LENGTH = 128;
 
@@ -64,6 +65,19 @@ class Matcher {
         return final_embeddings;
     }
 
+    async checkQuestions(texts) {
+        let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
+        const promises = texts.map(async (text, index) => {
+            const is_q = await is_question_openai(text);
+            return { index, is_q };
+        });
+        const results = await Promise.all(promises);
+        results.forEach(result => {
+            isQuestion[result.index] = result.is_q;
+        });
+        return isQuestion;
+    }
+
     async solve(query) {
         const texts = query.texts;
         const dimensions = query.dimensions;
@@ -72,10 +86,12 @@ class Matcher {
 
         let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
 
-        for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-            let is_q = await is_question_openai(texts[i]);
-            isQuestion[i] = is_q;
-        }
+        // for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
+        //     let is_q = await is_question_openai(texts[i]);
+        //     isQuestion[i] = is_q;
+        // }
+
+        isQuestion = await this.checkQuestions(texts);
 
         if (!Array.isArray(texts)) {
             logger.error("Parameter should be an array.");
