@@ -1,5 +1,6 @@
 import fs from "fs/promises";  // Use only fs/promises
 import { Matcher } from "./matcher.js";
+import { logger } from "./logger.js";
 
 // Asynchronous reading of a JSON file
 const readfile = async (file_index) => {
@@ -17,6 +18,8 @@ const readfile = async (file_index) => {
 }
 
 const engine = async (file_index) => {
+    const startTime = new Date().getTime();
+
     const data = await readfile(file_index);
     const texts = data['texts'];
     const true_q_indices = data["q_indices"];
@@ -32,12 +35,14 @@ const engine = async (file_index) => {
             fail_cnt++;
         }
     });
-    console.log(fail_cnt)
+
+    const endTime = new Date().getTime(); 
+    logger.error(`file_${file_index}: time: ${(endTime - startTime)/1000}s  ,  failed_count: ${fail_cnt}`)
 }
 
 const main = async () => {
     
-    for(let i = 1; i < 2; i++) {
+    for(let i = 0; i < 10; i++) {
         await engine(i);
     }
 

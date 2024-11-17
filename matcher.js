@@ -14,7 +14,16 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY1, // This is the default and can be omitted
   });
 
+const Max_Question_Word = 14;
+const Min_Answer_Word = 50;
+
 const is_question_openai = async (text) => {
+    let len = text.split(" ").length;
+
+    if(len < Max_Question_Word) return true;
+
+    if(len > Min_Answer_Word) return false;
+
     try {
         const chatCompletion = await client.chat.completions.create({
             messages: [
@@ -58,12 +67,15 @@ class Matcher {
     async solve(query) {
         const texts = query.texts;
         const dimensions = query.dimensions;
+
+        logger.info(`Text Length: ${texts.length}`);
+
         let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
 
-        // for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-        //     let is_q = await is_question_openai(texts[i]);
-        //     isQuestion[i] = is_q
-        // }
+        for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
+            let is_q = await is_question_openai(texts[i]);
+            isQuestion[i] = is_q;
+        }
 
         if (!Array.isArray(texts)) {
             logger.error("Parameter should be an array.");
@@ -75,7 +87,7 @@ class Matcher {
             return null;
         }
 
-        logger.info(`Text Length: ${texts.length}`);
+        
         logger.info(`Embedding...`);
 
         let startTime = Date.now();
@@ -116,7 +128,7 @@ class Matcher {
         let questionCnt = 0;
 
         for (let i = 0; i < n; i++)
-            isQuestion[i] && questionCnt;
+            isQuestion[i] == true && questionCnt++;
 
         for (let i = 0; i < n; i++) {
             for (let j = 0; j < n; j++) {
@@ -151,6 +163,12 @@ class Matcher {
         logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
 
         return m_KM.xy
+
+
+
+
+
+        
 
         const final_embeddings = [];
         for (let i = 0; i < n; i++) {
