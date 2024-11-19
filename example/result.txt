@@ -1,0 +1,813 @@
+01:09:01 - [^_^]: Text Length: 128
+01:09:02 - [^_^]: Embedding...
+01:09:08 - [^_^]: Embedding done in 5392ms
+01:09:08 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:09:08 - [^_^]: KM Algorithm took 3ms
+{ from: 45, to: 39, correct: 12 }
+{ from: 75, to: 70, correct: 22 }
+{ from: 87, to: 12, correct: 39 }
+{ from: 97, to: 22, correct: 70 }
+File written successfully
+01:09:08 - [^_^]: file_0: time: 7.269s  ,  failed_count: 4
+01:09:08 - [^_^]: Text Length: 128
+01:09:21 - [^_^]: Embedding...
+01:09:26 - [^_^]: Embedding done in 5526ms
+01:09:26 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:09:26 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:09:26 - [^_^]: file_1: time: 18.634s  ,  failed_count: 0
+01:09:26 - [^_^]: Text Length: 128
+01:09:28 - [^_^]: Embedding...
+01:09:32 - [^_^]: Embedding done in 3860ms
+01:09:32 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:09:32 - [^_^]: KM Algorithm took 8ms
+File written successfully
+01:09:32 - [^_^]: file_2: time: 5.709s  ,  failed_count: 0
+01:09:32 - [^_^]: Text Length: 128
+01:09:34 - [^_^]: Embedding...
+01:09:37 - [^_^]: Embedding done in 3545ms
+01:09:37 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:09:37 - [^_^]: KM Algorithm took 5ms
+File written successfully
+01:09:37 - [^_^]: file_3: time: 5.1s  ,  failed_count: 0
+01:09:37 - [^_^]: Text Length: 128
+01:09:38 - [^_^]: Embedding...
+01:09:42 - [^_^]: Embedding done in 3341ms
+01:09:42 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:09:42 - [^_^]: KM Algorithm took 4ms
+{ from: 16, to: 80, correct: 90 }
+{ from: 80, to: 16, correct: 72 }
+File written successfully
+01:09:42 - [^_^]: file_4: time: 4.517s  ,  failed_count: 2
+01:09:42 - [^_^]: Text Length: 128
+01:09:43 - [^_^]: Embedding...
+01:09:47 - [^_^]: Embedding done in 3478ms
+01:09:47 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:09:47 - [^_^]: KM Algorithm took 6ms
+{ from: 18, to: 77, correct: 110 }
+{ from: 19, to: 55, correct: 40 }
+{ from: 55, to: 19, correct: 83 }
+{ from: 77, to: 18, correct: 33 }
+File written successfully
+01:09:47 - [^_^]: file_5: time: 4.958s  ,  failed_count: 4
+01:09:47 - [^_^]: Text Length: 128
+01:09:48 - [^_^]: Embedding...
+01:09:51 - [^_^]: Embedding done in 3182ms
+01:09:51 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:09:51 - [^_^]: KM Algorithm took 4ms
+File written successfully
+01:09:51 - [^_^]: file_6: time: 4.738s  ,  failed_count: 0
+01:09:51 - [^_^]: Text Length: 128
+01:09:53 - [^_^]: Embedding...
+01:09:56 - [^_^]: Embedding done in 3522ms
+01:09:56 - [^_^]: Running KM Algorithm..., QuestionCnt:62
+01:09:57 - [^_^]: KM Algorithm took 6ms
+File written successfully
+01:09:57 - [^_^]: file_7: time: 5.06s  ,  failed_count: 0
+01:09:57 - [^_^]: Text Length: 128
+01:09:58 - [^_^]: Embedding...
+01:10:01 - [^_^]: Embedding done in 3321ms
+01:10:01 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:10:01 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:10:01 - [^_^]: file_8: time: 4.909s  ,  failed_count: 0
+01:10:01 - [^_^]: Text Length: 128
+01:10:03 - [^_^]: Embedding...
+01:10:06 - [^_^]: Embedding done in 3153ms
+01:10:06 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:10:06 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:10:06 - [^_^]: file_9: time: 4.596s  ,  failed_count: 0
+01:10:06 - [^_^]: Text Length: 128
+01:10:08 - [^_^]: Embedding...
+01:10:11 - [^_^]: Embedding done in 3624ms
+01:10:11 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:10:11 - [^_^]: KM Algorithm took 6ms
+File written successfully
+01:10:11 - [^_^]: file_10: time: 5.44s  ,  failed_count: 0
+01:10:11 - [^_^]: Text Length: 128
+01:10:13 - [^_^]: Embedding...
+01:10:17 - [^_^]: Embedding done in 3250ms
+01:10:17 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:10:17 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:10:17 - [^_^]: file_11: time: 5.276s  ,  failed_count: 0
+01:10:17 - [^_^]: Text Length: 128
+01:10:21 - [^_^]: Embedding...
+01:10:26 - [^_^]: Embedding done in 4918ms
+01:10:26 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:10:26 - [^_^]: KM Algorithm took 5ms
+File written successfully
+01:10:26 - [^_^]: file_12: time: 8.923s  ,  failed_count: 0
+01:10:26 - [^_^]: Text Length: 128
+01:10:27 - [^_^]: Embedding...
+01:10:31 - [^_^]: Embedding done in 3890ms
+01:10:31 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:10:31 - [^_^]: KM Algorithm took 2ms
+{ from: 61, to: 29, correct: 57 }
+{ from: 66, to: 57, correct: 29 }
+File written successfully
+01:10:31 - [^_^]: file_13: time: 5.635s  ,  failed_count: 2
+01:10:31 - [^_^]: Text Length: 128
+01:10:32 - [^_^]: Embedding...
+01:10:36 - [^_^]: Embedding done in 3284ms
+01:10:36 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:10:36 - [^_^]: KM Algorithm took 4ms
+{ from: 26, to: 105, correct: 5 }
+{ from: 32, to: 57, correct: 17 }
+{ from: 84, to: 17, correct: 57 }
+{ from: 122, to: 5, correct: 105 }
+File written successfully
+01:10:36 - [^_^]: file_14: time: 4.501s  ,  failed_count: 4
+01:10:36 - [^_^]: Text Length: 128
+01:10:37 - [^_^]: Embedding...
+01:10:40 - [^_^]: Embedding done in 3432ms
+01:10:40 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:10:40 - [^_^]: KM Algorithm took 6ms
+{ from: 64, to: 69, correct: 74 }
+{ from: 69, to: 64, correct: 19 }
+File written successfully
+01:10:40 - [^_^]: file_15: time: 4.57s  ,  failed_count: 2
+01:10:40 - [^_^]: Text Length: 128
+01:10:41 - [^_^]: Embedding...
+01:10:45 - [^_^]: Embedding done in 3706ms
+01:10:45 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:10:45 - [^_^]: KM Algorithm took 6ms
+{ from: 47, to: 14, correct: 119 }
+{ from: 99, to: 119, correct: 14 }
+File written successfully
+01:10:45 - [^_^]: file_16: time: 4.802s  ,  failed_count: 2
+01:10:45 - [^_^]: Text Length: 128
+01:10:54 - [^_^]: Embedding...
+01:10:59 - [^_^]: Embedding done in 5180ms
+01:10:59 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:10:59 - [^_^]: KM Algorithm took 6ms
+{ from: 3, to: 119, correct: 90 }
+{ from: 124, to: 90, correct: 119 }
+File written successfully
+01:10:59 - [^_^]: file_17: time: 13.615s  ,  failed_count: 2
+01:10:59 - [^_^]: Text Length: 128
+01:11:00 - [^_^]: Embedding...
+01:11:04 - [^_^]: Embedding done in 3710ms
+01:11:04 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:11:04 - [^_^]: KM Algorithm took 1ms
+{ from: 108, to: 53, correct: 44 }
+{ from: 125, to: 44, correct: 53 }
+File written successfully
+01:11:04 - [^_^]: file_18: time: 5.235s  ,  failed_count: 2
+01:11:04 - [^_^]: Text Length: 128
+01:11:05 - [^_^]: Embedding...
+01:11:09 - [^_^]: Embedding done in 3484ms
+01:11:09 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:11:09 - [^_^]: KM Algorithm took 3ms
+{ from: 27, to: 81, correct: 2 }
+{ from: 109, to: 2, correct: 81 }
+File written successfully
+01:11:09 - [^_^]: file_19: time: 4.901s  ,  failed_count: 2
+01:11:09 - [^_^]: Text Length: 128
+01:11:10 - [^_^]: Embedding...
+01:11:14 - [^_^]: Embedding done in 3605ms
+01:11:14 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:11:14 - [^_^]: KM Algorithm took 2ms
+{ from: 112, to: 87, correct: 4 }
+{ from: 122, to: 4, correct: 87 }
+File written successfully
+01:11:14 - [^_^]: file_20: time: 4.769s  ,  failed_count: 2
+01:11:14 - [^_^]: Text Length: 128
+01:11:16 - [^_^]: Embedding...
+01:11:19 - [^_^]: Embedding done in 3399ms
+01:11:19 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:11:19 - [^_^]: KM Algorithm took 1ms
+{ from: 74, to: 102, correct: 114 }
+{ from: 94, to: 114, correct: 102 }
+File written successfully
+01:11:19 - [^_^]: file_21: time: 5.476s  ,  failed_count: 2
+01:11:19 - [^_^]: Text Length: 128
+01:11:23 - [^_^]: Embedding...
+01:11:28 - [^_^]: Embedding done in 4802ms
+01:11:28 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:11:28 - [^_^]: KM Algorithm took 4ms
+{ from: 72, to: 16, correct: 126 }
+{ from: 86, to: 126, correct: 16 }
+File written successfully
+01:11:28 - [^_^]: file_22: time: 9.151s  ,  failed_count: 2
+01:11:28 - [^_^]: Text Length: 128
+01:11:29 - [^_^]: Embedding...
+01:11:33 - [^_^]: Embedding done in 3637ms
+01:11:33 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:11:33 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:11:33 - [^_^]: file_23: time: 4.774s  ,  failed_count: 0
+01:11:33 - [^_^]: Text Length: 128
+01:11:34 - [^_^]: Embedding...
+01:11:38 - [^_^]: Embedding done in 3461ms
+01:11:38 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:11:38 - [^_^]: KM Algorithm took 2ms
+{ from: 45, to: 0, correct: 19 }
+{ from: 76, to: 124, correct: 23 }
+{ from: 107, to: 23, correct: 124 }
+{ from: 123, to: 19, correct: 0 }
+File written successfully
+01:11:38 - [^_^]: file_24: time: 4.599s  ,  failed_count: 4
+01:11:38 - [^_^]: Text Length: 128
+01:11:39 - [^_^]: Embedding...
+01:11:44 - [^_^]: Embedding done in 5504ms
+01:11:45 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:11:45 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:11:45 - [^_^]: file_25: time: 6.86s  ,  failed_count: 0
+01:11:45 - [^_^]: Text Length: 128
+01:11:46 - [^_^]: Embedding...
+01:11:52 - [^_^]: Embedding done in 6028ms
+01:11:52 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:11:52 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:11:52 - [^_^]: file_26: time: 7.314s  ,  failed_count: 0
+01:11:52 - [^_^]: Text Length: 128
+01:11:53 - [^_^]: Embedding...
+01:11:57 - [^_^]: Embedding done in 3661ms
+01:11:57 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:11:57 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:11:57 - [^_^]: file_27: time: 4.927s  ,  failed_count: 0
+01:11:57 - [^_^]: Text Length: 128
+01:11:58 - [^_^]: Embedding...
+01:12:01 - [^_^]: Embedding done in 3316ms
+01:12:01 - [^_^]: Running KM Algorithm..., QuestionCnt:67
+01:12:01 - [^_^]: KM Algorithm took 4ms
+{ from: 88, to: 35, correct: 70 }
+{ from: 118, to: 70, correct: 35 }
+File written successfully
+01:12:01 - [^_^]: file_28: time: 4.45s  ,  failed_count: 2
+01:12:01 - [^_^]: Text Length: 128
+01:12:03 - [^_^]: Embedding...
+01:12:06 - [^_^]: Embedding done in 3117ms
+01:12:06 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:12:06 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:12:06 - [^_^]: file_29: time: 4.588s  ,  failed_count: 0
+01:12:06 - [^_^]: Text Length: 128
+01:12:07 - [^_^]: Embedding...
+01:12:10 - [^_^]: Embedding done in 3108ms
+01:12:10 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:12:10 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:12:11 - [^_^]: file_30: time: 4.676s  ,  failed_count: 0
+01:12:11 - [^_^]: Text Length: 128
+01:12:12 - [^_^]: Embedding...
+01:12:16 - [^_^]: Embedding done in 3344ms
+01:12:16 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:12:16 - [^_^]: KM Algorithm took 3ms
+{ from: 24, to: 127, correct: 10 }
+{ from: 126, to: 10, correct: 127 }
+File written successfully
+01:12:16 - [^_^]: file_31: time: 5.153s  ,  failed_count: 2
+01:12:16 - [^_^]: Text Length: 128
+01:12:17 - [^_^]: Embedding...
+01:12:20 - [^_^]: Embedding done in 3450ms
+01:12:20 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:12:20 - [^_^]: KM Algorithm took 8ms
+File written successfully
+01:12:20 - [^_^]: file_32: time: 4.673s  ,  failed_count: 0
+01:12:20 - [^_^]: Text Length: 128
+01:12:22 - [^_^]: Embedding...
+01:12:25 - [^_^]: Embedding done in 3473ms
+01:12:25 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:12:25 - [^_^]: KM Algorithm took 4ms
+File written successfully
+01:12:25 - [^_^]: file_33: time: 4.752s  ,  failed_count: 0
+01:12:25 - [^_^]: Text Length: 128
+01:12:27 - [^_^]: Embedding...
+01:12:30 - [^_^]: Embedding done in 3444ms
+01:12:30 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:12:30 - [^_^]: KM Algorithm took 2ms
+{ from: 36, to: 44, correct: 103 }
+{ from: 44, to: 36, correct: 99 }
+File written successfully
+01:12:30 - [^_^]: file_34: time: 5.064s  ,  failed_count: 2
+01:12:30 - [^_^]: Text Length: 128
+01:12:34 - [^_^]: Embedding...
+01:12:40 - [^_^]: Embedding done in 5808ms
+01:12:40 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:12:40 - [^_^]: KM Algorithm took 1ms
+{ from: 67, to: 96, correct: 110 }
+{ from: 79, to: 110, correct: 96 }
+File written successfully
+01:12:40 - [^_^]: file_35: time: 9.64s  ,  failed_count: 2
+01:12:40 - [^_^]: Text Length: 128
+01:12:41 - [^_^]: Embedding...
+01:12:46 - [^_^]: Embedding done in 5003ms
+01:12:46 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:12:46 - [^_^]: KM Algorithm took 3ms
+{ from: 12, to: 77, correct: 29 }
+{ from: 61, to: 29, correct: 77 }
+File written successfully
+01:12:46 - [^_^]: file_36: time: 6.16s  ,  failed_count: 2
+01:12:46 - [^_^]: Text Length: 128
+01:12:47 - [^_^]: Embedding...
+01:12:51 - [^_^]: Embedding done in 3690ms
+01:12:51 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:12:51 - [^_^]: KM Algorithm took 4ms
+File written successfully
+01:12:51 - [^_^]: file_37: time: 5.204s  ,  failed_count: 0
+01:12:51 - [^_^]: Text Length: 128
+01:12:53 - [^_^]: Embedding...
+01:12:56 - [^_^]: Embedding done in 3292ms
+01:12:56 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:12:56 - [^_^]: KM Algorithm took 1ms
+{ from: 61, to: 58, correct: 59 }
+{ from: 93, to: 59, correct: 58 }
+File written successfully
+01:12:56 - [^_^]: file_38: time: 5.131s  ,  failed_count: 2
+01:12:56 - [^_^]: Text Length: 128
+01:12:58 - [^_^]: Embedding...
+01:13:01 - [^_^]: Embedding done in 3315ms
+01:13:01 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:13:01 - [^_^]: KM Algorithm took 4ms
+{ from: 87, to: 120, correct: 52 }
+{ from: 120, to: 87, correct: 90 }
+File written successfully
+01:13:01 - [^_^]: file_39: time: 4.666s  ,  failed_count: 2
+01:13:01 - [^_^]: Text Length: 128
+01:13:02 - [^_^]: Embedding...
+01:13:06 - [^_^]: Embedding done in 3492ms
+01:13:06 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:06 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:13:06 - [^_^]: file_40: time: 5.048s  ,  failed_count: 0
+01:13:06 - [^_^]: Text Length: 128
+01:13:07 - [^_^]: Embedding...
+01:13:11 - [^_^]: Embedding done in 3445ms
+01:13:11 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:13:11 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:13:11 - [^_^]: file_41: time: 4.956s  ,  failed_count: 0
+01:13:11 - [^_^]: Text Length: 128
+01:13:13 - [^_^]: Embedding...
+01:13:16 - [^_^]: Embedding done in 3753ms
+01:13:16 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:13:16 - [^_^]: KM Algorithm took 3ms
+{ from: 6, to: 3, correct: 125 }
+{ from: 7, to: 125, correct: 3 }
+{ from: 12, to: 32, correct: 105 }
+{ from: 121, to: 105, correct: 32 }
+File written successfully
+01:13:16 - [^_^]: file_42: time: 5.425s  ,  failed_count: 4
+01:13:16 - [^_^]: Text Length: 128
+01:13:18 - [^_^]: Embedding...
+01:13:21 - [^_^]: Embedding done in 3703ms
+01:13:21 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:21 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:13:21 - [^_^]: file_43: time: 5.009s  ,  failed_count: 0
+01:13:21 - [^_^]: Text Length: 128
+01:13:23 - [^_^]: Embedding...
+01:13:26 - [^_^]: Embedding done in 3101ms
+01:13:26 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:26 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:13:26 - [^_^]: file_44: time: 4.601s  ,  failed_count: 0
+01:13:26 - [^_^]: Text Length: 128
+01:13:27 - [^_^]: Embedding...
+01:13:31 - [^_^]: Embedding done in 3307ms
+01:13:31 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:13:31 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:13:31 - [^_^]: file_45: time: 4.835s  ,  failed_count: 0
+01:13:31 - [^_^]: Text Length: 128
+01:13:32 - [^_^]: Embedding...
+01:13:37 - [^_^]: Embedding done in 4420ms
+01:13:37 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:13:37 - [^_^]: KM Algorithm took 3ms
+{ from: 67, to: 13, correct: 101 }
+{ from: 127, to: 101, correct: 13 }
+File written successfully
+01:13:37 - [^_^]: file_46: time: 5.921s  ,  failed_count: 2
+01:13:37 - [^_^]: Text Length: 128
+01:13:38 - [^_^]: Embedding...
+01:13:44 - [^_^]: Embedding done in 6251ms
+01:13:44 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:13:44 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:13:44 - [^_^]: file_47: time: 7.39s  ,  failed_count: 0
+01:13:44 - [^_^]: Text Length: 128
+01:13:46 - [^_^]: Embedding...
+01:13:50 - [^_^]: Embedding done in 4234ms
+01:13:50 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:50 - [^_^]: KM Algorithm took 2ms
+{ from: 45, to: 49, correct: 5 }
+{ from: 49, to: 45, correct: 23 }
+File written successfully
+01:13:50 - [^_^]: file_48: time: 5.684s  ,  failed_count: 2
+01:13:50 - [^_^]: Text Length: 128
+01:13:51 - [^_^]: Embedding...
+01:13:55 - [^_^]: Embedding done in 3598ms
+01:13:55 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:55 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:13:55 - [^_^]: file_49: time: 5.134s  ,  failed_count: 0
+01:13:55 - [^_^]: Text Length: 128
+01:13:56 - [^_^]: Embedding...
+01:13:59 - [^_^]: Embedding done in 3086ms
+01:13:59 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:13:59 - [^_^]: KM Algorithm took 1ms
+{ from: 81, to: 111, correct: 67 }
+{ from: 120, to: 67, correct: 111 }
+File written successfully
+01:13:59 - [^_^]: file_50: time: 4.377s  ,  failed_count: 2
+01:13:59 - [^_^]: Text Length: 128
+01:14:00 - [^_^]: Embedding...
+01:14:04 - [^_^]: Embedding done in 3360ms
+01:14:04 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:14:04 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:14:04 - [^_^]: file_51: time: 4.539s  ,  failed_count: 0
+01:14:04 - [^_^]: Text Length: 128
+01:14:05 - [^_^]: Embedding...
+01:14:08 - [^_^]: Embedding done in 3265ms
+01:14:08 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:14:08 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:14:08 - [^_^]: file_52: time: 4.359s  ,  failed_count: 0
+01:14:08 - [^_^]: Text Length: 128
+01:14:09 - [^_^]: Embedding...
+01:14:13 - [^_^]: Embedding done in 3130ms
+01:14:13 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:14:13 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:14:13 - [^_^]: file_53: time: 4.36s  ,  failed_count: 0
+01:14:13 - [^_^]: Text Length: 128
+01:14:14 - [^_^]: Embedding...
+01:14:17 - [^_^]: Embedding done in 3407ms
+01:14:17 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:14:17 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:14:17 - [^_^]: file_54: time: 4.892s  ,  failed_count: 0
+01:14:17 - [^_^]: Text Length: 128
+01:14:19 - [^_^]: Embedding...
+01:14:22 - [^_^]: Embedding done in 3270ms
+01:14:22 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:14:22 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:14:22 - [^_^]: file_55: time: 4.487s  ,  failed_count: 0
+01:14:22 - [^_^]: Text Length: 128
+01:14:24 - [^_^]: Embedding...
+01:14:27 - [^_^]: Embedding done in 3281ms
+01:14:27 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:14:27 - [^_^]: KM Algorithm took 2ms
+{ from: 20, to: 85, correct: 112 }
+{ from: 85, to: 20, correct: 9 }
+File written successfully
+01:14:27 - [^_^]: file_56: time: 4.992s  ,  failed_count: 2
+01:14:27 - [^_^]: Text Length: 128
+01:14:28 - [^_^]: Embedding...
+01:14:32 - [^_^]: Embedding done in 4400ms
+01:14:33 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:14:33 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:14:33 - [^_^]: file_57: time: 5.59s  ,  failed_count: 0
+01:14:33 - [^_^]: Text Length: 128
+01:14:38 - [^_^]: Embedding...
+01:14:46 - [^_^]: Embedding done in 7442ms
+01:14:46 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:14:46 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:14:46 - [^_^]: file_58: time: 13.356s  ,  failed_count: 0
+01:14:46 - [^_^]: Text Length: 128
+01:14:47 - [^_^]: Embedding...
+01:14:51 - [^_^]: Embedding done in 3754ms
+01:14:51 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:14:51 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:14:51 - [^_^]: file_59: time: 5.322s  ,  failed_count: 0
+01:14:51 - [^_^]: Text Length: 128
+01:14:53 - [^_^]: Embedding...
+01:14:56 - [^_^]: Embedding done in 3527ms
+01:14:56 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:14:56 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:14:56 - [^_^]: file_60: time: 5.053s  ,  failed_count: 0
+01:14:56 - [^_^]: Text Length: 128
+01:14:58 - [^_^]: Embedding...
+01:15:01 - [^_^]: Embedding done in 3564ms
+01:15:01 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:01 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:15:01 - [^_^]: file_61: time: 5.17s  ,  failed_count: 0
+01:15:01 - [^_^]: Text Length: 128
+01:15:03 - [^_^]: Embedding...
+01:15:06 - [^_^]: Embedding done in 3246ms
+01:15:07 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:07 - [^_^]: KM Algorithm took 3ms
+File written successfully
+01:15:07 - [^_^]: file_62: time: 5.105s  ,  failed_count: 0
+01:15:07 - [^_^]: Text Length: 128
+01:15:08 - [^_^]: Embedding...
+01:15:11 - [^_^]: Embedding done in 3249ms
+01:15:11 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:11 - [^_^]: KM Algorithm took 1ms
+{ from: 14, to: 121, correct: 100 }
+{ from: 121, to: 14, correct: 62 }
+File written successfully
+01:15:11 - [^_^]: file_63: time: 4.488s  ,  failed_count: 2
+01:15:11 - [^_^]: Text Length: 128
+01:15:12 - [^_^]: Embedding...
+01:15:16 - [^_^]: Embedding done in 3367ms
+01:15:16 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:16 - [^_^]: KM Algorithm took 2ms
+{ from: 12, to: 47, correct: 37 }
+{ from: 64, to: 119, correct: 80 }
+{ from: 71, to: 37, correct: 47 }
+{ from: 115, to: 80, correct: 119 }
+File written successfully
+01:15:16 - [^_^]: file_64: time: 4.586s  ,  failed_count: 4
+01:15:16 - [^_^]: Text Length: 128
+01:15:17 - [^_^]: Embedding...
+01:15:20 - [^_^]: Embedding done in 3208ms
+01:15:20 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:20 - [^_^]: KM Algorithm took 1ms
+{ from: 68, to: 36, correct: 9 }
+{ from: 126, to: 9, correct: 36 }
+File written successfully
+01:15:20 - [^_^]: file_65: time: 4.322s  ,  failed_count: 2
+01:15:20 - [^_^]: Text Length: 128
+01:15:21 - [^_^]: Embedding...
+01:15:24 - [^_^]: Embedding done in 3156ms
+01:15:24 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:15:24 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:15:24 - [^_^]: file_66: time: 4.459s  ,  failed_count: 0
+01:15:24 - [^_^]: Text Length: 128
+01:15:26 - [^_^]: Embedding...
+01:15:29 - [^_^]: Embedding done in 3309ms
+01:15:29 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:15:29 - [^_^]: KM Algorithm took 3ms
+{ from: 84, to: 38, correct: 114 }
+{ from: 112, to: 114, correct: 38 }
+File written successfully
+01:15:29 - [^_^]: file_67: time: 4.814s  ,  failed_count: 2
+01:15:29 - [^_^]: Text Length: 128
+01:15:31 - [^_^]: Embedding...
+01:15:34 - [^_^]: Embedding done in 3347ms
+01:15:35 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:35 - [^_^]: KM Algorithm took 2ms
+{ from: 21, to: 126, correct: 67 }
+{ from: 120, to: 67, correct: 126 }
+File written successfully
+01:15:35 - [^_^]: file_68: time: 5.313s  ,  failed_count: 2
+01:15:35 - [^_^]: Text Length: 128
+01:15:36 - [^_^]: Embedding...
+01:15:39 - [^_^]: Embedding done in 3580ms
+01:15:39 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:15:39 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:15:40 - [^_^]: file_69: time: 4.965s  ,  failed_count: 0
+01:15:40 - [^_^]: Text Length: 128
+01:15:41 - [^_^]: Embedding...
+01:15:45 - [^_^]: Embedding done in 4330ms
+01:15:45 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:45 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:15:45 - [^_^]: file_70: time: 5.822s  ,  failed_count: 0
+01:15:45 - [^_^]: Text Length: 128
+01:15:46 - [^_^]: Embedding...
+01:15:52 - [^_^]: Embedding done in 5484ms
+01:15:52 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:52 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:15:52 - [^_^]: file_71: time: 6.694s  ,  failed_count: 0
+01:15:52 - [^_^]: Text Length: 128
+01:15:53 - [^_^]: Embedding...
+01:15:58 - [^_^]: Embedding done in 4814ms
+01:15:58 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:15:58 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:15:58 - [^_^]: file_72: time: 6.027s  ,  failed_count: 0
+01:15:58 - [^_^]: Text Length: 128
+01:15:59 - [^_^]: Embedding...
+01:16:02 - [^_^]: Embedding done in 3163ms
+01:16:02 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:02 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:16:02 - [^_^]: file_73: time: 4.323s  ,  failed_count: 0
+01:16:02 - [^_^]: Text Length: 128
+01:16:04 - [^_^]: Embedding...
+01:16:07 - [^_^]: Embedding done in 3591ms
+01:16:07 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:07 - [^_^]: KM Algorithm took 1ms
+{ from: 90, to: 84, correct: 66 }
+{ from: 95, to: 66, correct: 84 }
+File written successfully
+01:16:07 - [^_^]: file_74: time: 5.072s  ,  failed_count: 2
+01:16:07 - [^_^]: Text Length: 128
+01:16:12 - [^_^]: Embedding...
+01:16:17 - [^_^]: Embedding done in 5014ms
+01:16:17 - [^_^]: Running KM Algorithm..., QuestionCnt:63
+01:16:17 - [^_^]: KM Algorithm took 3ms
+{ from: 5, to: 36, correct: 92 }
+{ from: 17, to: 97, correct: 26 }
+{ from: 21, to: 33, correct: 94 }
+{ from: 56, to: 94, correct: 33 }
+{ from: 65, to: 17, correct: 97 }
+{ from: 72, to: 26, correct: 36 }
+File written successfully
+01:16:17 - [^_^]: file_75: time: 9.47s  ,  failed_count: 6
+01:16:17 - [^_^]: Text Length: 128
+01:16:18 - [^_^]: Embedding...
+01:16:22 - [^_^]: Embedding done in 3694ms
+01:16:22 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:22 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:16:22 - [^_^]: file_76: time: 5.155s  ,  failed_count: 0
+01:16:22 - [^_^]: Text Length: 128
+01:16:23 - [^_^]: Embedding...
+01:16:27 - [^_^]: Embedding done in 3441ms
+01:16:27 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:27 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:16:27 - [^_^]: file_77: time: 4.608s  ,  failed_count: 0
+01:16:27 - [^_^]: Text Length: 128
+01:16:28 - [^_^]: Embedding...
+01:16:32 - [^_^]: Embedding done in 4227ms
+01:16:32 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:32 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:16:32 - [^_^]: file_78: time: 5.349s  ,  failed_count: 0
+01:16:32 - [^_^]: Text Length: 128
+01:16:34 - [^_^]: Embedding...
+01:16:39 - [^_^]: Embedding done in 5271ms
+01:16:39 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:16:39 - [^_^]: KM Algorithm took 3ms
+{ from: 6, to: 39, correct: 70 }
+{ from: 16, to: 70, correct: 39 }
+File written successfully
+01:16:39 - [^_^]: file_79: time: 6.818s  ,  failed_count: 2
+01:16:39 - [^_^]: Text Length: 128
+01:16:40 - [^_^]: Embedding...
+01:16:44 - [^_^]: Embedding done in 4458ms
+01:16:44 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:44 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:16:44 - [^_^]: file_80: time: 5.597s  ,  failed_count: 0
+01:16:44 - [^_^]: Text Length: 128
+01:16:46 - [^_^]: Embedding...
+01:16:50 - [^_^]: Embedding done in 3524ms
+01:16:50 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:50 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:16:50 - [^_^]: file_81: time: 5.134s  ,  failed_count: 0
+01:16:50 - [^_^]: Text Length: 128
+01:16:51 - [^_^]: Embedding...
+01:16:54 - [^_^]: Embedding done in 3264ms
+01:16:54 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:54 - [^_^]: KM Algorithm took 2ms
+{ from: 30, to: 46, correct: 63 }
+{ from: 34, to: 63, correct: 46 }
+File written successfully
+01:16:54 - [^_^]: file_82: time: 4.561s  ,  failed_count: 2
+01:16:54 - [^_^]: Text Length: 128
+01:16:55 - [^_^]: Embedding...
+01:16:59 - [^_^]: Embedding done in 3212ms
+01:16:59 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:16:59 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:16:59 - [^_^]: file_83: time: 4.509s  ,  failed_count: 0
+01:16:59 - [^_^]: Text Length: 128
+01:17:00 - [^_^]: Embedding...
+01:17:03 - [^_^]: Embedding done in 3258ms
+01:17:03 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:03 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:17:03 - [^_^]: file_84: time: 4.502s  ,  failed_count: 0
+01:17:03 - [^_^]: Text Length: 128
+01:17:04 - [^_^]: Embedding...
+01:17:08 - [^_^]: Embedding done in 3524ms
+01:17:08 - [^_^]: Running KM Algorithm..., QuestionCnt:67
+01:17:08 - [^_^]: KM Algorithm took 4ms
+{ from: 34, to: 9, correct: 21 }
+{ from: 97, to: 21, correct: 9 }
+File written successfully
+01:17:08 - [^_^]: file_85: time: 4.913s  ,  failed_count: 2
+01:17:08 - [^_^]: Text Length: 128
+01:17:09 - [^_^]: Embedding...
+01:17:13 - [^_^]: Embedding done in 3540ms
+01:17:13 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:17:13 - [^_^]: KM Algorithm took 3ms
+{ from: 6, to: 113, correct: 77 }
+{ from: 53, to: 82, correct: 88 }
+{ from: 90, to: 77, correct: 113 }
+{ from: 108, to: 88, correct: 82 }
+File written successfully
+01:17:13 - [^_^]: file_86: time: 4.691s  ,  failed_count: 4
+01:17:13 - [^_^]: Text Length: 128
+01:17:14 - [^_^]: Embedding...
+01:17:17 - [^_^]: Embedding done in 2987ms
+01:17:17 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:17 - [^_^]: KM Algorithm took 2ms
+{ from: 26, to: 101, correct: 66 }
+{ from: 84, to: 66, correct: 101 }
+File written successfully
+01:17:17 - [^_^]: file_87: time: 4.617s  ,  failed_count: 2
+01:17:17 - [^_^]: Text Length: 128
+01:17:19 - [^_^]: Embedding...
+01:17:22 - [^_^]: Embedding done in 3212ms
+01:17:22 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:22 - [^_^]: KM Algorithm took 1ms
+{ from: 25, to: 101, correct: 49 }
+{ from: 100, to: 49, correct: 101 }
+File written successfully
+01:17:22 - [^_^]: file_88: time: 4.762s  ,  failed_count: 2
+01:17:22 - [^_^]: Text Length: 128
+01:17:24 - [^_^]: Embedding...
+01:17:27 - [^_^]: Embedding done in 3050ms
+01:17:27 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:27 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:17:27 - [^_^]: file_89: time: 4.683s  ,  failed_count: 0
+01:17:27 - [^_^]: Text Length: 128
+01:17:29 - [^_^]: Embedding...
+01:17:32 - [^_^]: Embedding done in 3590ms
+01:17:32 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:32 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:17:32 - [^_^]: file_90: time: 5.454s  ,  failed_count: 0
+01:17:32 - [^_^]: Text Length: 128
+01:17:37 - [^_^]: Embedding...
+01:17:42 - [^_^]: Embedding done in 4652ms
+01:17:42 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:42 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:17:42 - [^_^]: file_91: time: 9.639s  ,  failed_count: 0
+01:17:42 - [^_^]: Text Length: 128
+01:17:43 - [^_^]: Embedding...
+01:17:47 - [^_^]: Embedding done in 3745ms
+01:17:47 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:17:47 - [^_^]: KM Algorithm took 1ms
+File written successfully
+01:17:47 - [^_^]: file_92: time: 5.311s  ,  failed_count: 0
+01:17:47 - [^_^]: Text Length: 128
+01:17:49 - [^_^]: Embedding...
+01:17:52 - [^_^]: Embedding done in 3209ms
+01:17:52 - [^_^]: Running KM Algorithm..., QuestionCnt:66
+01:17:52 - [^_^]: KM Algorithm took 4ms
+{ from: 14, to: 54, correct: 82 }
+{ from: 21, to: 35, correct: 19 }
+{ from: 25, to: 19, correct: 35 }
+{ from: 38, to: 97, correct: 87 }
+{ from: 97, to: 38, correct: 90 }
+{ from: 105, to: 82, correct: 54 }
+File written successfully
+01:17:52 - [^_^]: file_93: time: 4.746s  ,  failed_count: 6
+01:17:52 - [^_^]: Text Length: 128
+01:17:53 - [^_^]: Embedding...
+01:17:57 - [^_^]: Embedding done in 3725ms
+01:17:57 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:17:57 - [^_^]: KM Algorithm took 2ms
+{ from: 101, to: 118, correct: 39 }
+{ from: 103, to: 39, correct: 118 }
+File written successfully
+01:17:57 - [^_^]: file_94: time: 5.229s  ,  failed_count: 2
+01:17:57 - [^_^]: Text Length: 128
+01:18:01 - [^_^]: Embedding...
+01:18:06 - [^_^]: Embedding done in 5094ms
+01:18:07 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:18:07 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:18:07 - [^_^]: file_95: time: 9.371s  ,  failed_count: 0
+01:18:07 - [^_^]: Text Length: 128
+01:18:08 - [^_^]: Embedding...
+01:18:12 - [^_^]: Embedding done in 3937ms
+01:18:12 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:18:12 - [^_^]: KM Algorithm took 4ms
+{ from: 4, to: 46, correct: 100 }
+{ from: 13, to: 89, correct: 30 }
+{ from: 24, to: 100, correct: 46 }
+{ from: 25, to: 30, correct: 89 }
+File written successfully
+01:18:12 - [^_^]: file_96: time: 5.041s  ,  failed_count: 4
+01:18:12 - [^_^]: Text Length: 128
+01:18:13 - [^_^]: Embedding...
+01:18:17 - [^_^]: Embedding done in 3554ms
+01:18:17 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:18:17 - [^_^]: KM Algorithm took 3ms
+{ from: 3, to: 71, correct: 29 }
+{ from: 71, to: 3, correct: 57 }
+File written successfully
+01:18:17 - [^_^]: file_97: time: 5.07s  ,  failed_count: 2
+01:18:17 - [^_^]: Text Length: 128
+01:18:18 - [^_^]: Embedding...
+01:18:23 - [^_^]: Embedding done in 4689ms
+01:18:23 - [^_^]: Running KM Algorithm..., QuestionCnt:65
+01:18:23 - [^_^]: KM Algorithm took 2ms
+File written successfully
+01:18:23 - [^_^]: file_98: time: 6.181s  ,  failed_count: 0
+01:18:23 - [^_^]: Text Length: 128
+01:18:24 - [^_^]: Embedding...
+01:18:29 - [^_^]: Embedding done in 4816ms
+01:18:29 - [^_^]: Running KM Algorithm..., QuestionCnt:64
+01:18:29 - [^_^]: KM Algorithm took 1ms
+{ from: 32, to: 51, correct: 78 }
+{ from: 34, to: 78, correct: 51 }
+File written successfully
+01:18:29 - [^_^]: file_99: time: 6.063s  ,  failed_count: 2
+Success! 56
