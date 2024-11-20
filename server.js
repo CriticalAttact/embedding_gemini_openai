@@ -8,23 +8,28 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Adjust '10mb' as needed
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Simple GET end-point
 app.get('/', (req, res) => {
-    res.send('Hello Embedding\n api: /data, method:post, {texts:[...]}');
+    res.send('Hello Embedding\n api: ipaddress:8989/embedding, method:post, {query:{texts:[...128texts]}}');
 });
 
 // Simple POST end-point
-app.post('/data', async (req, res) => {
-    const texts = req.body.texts;
+app.post('/embedding', async (req, res) => {
+    const texts = req.body.query.texts;
     const matcher = new Matcher();
-    const result = await matcher.solve({
-        texts,
-        dimensions: texts.length
-    });
+    try {
+        const results = await matcher.solve({
+            texts,
+            dimensions: texts.length
+        });
+        res.status(200).json({ message: 'Data received', results });
+    } catch (error) {
+        res.status(500).json({message: "server error!", results:[]})
+    }
     
-    res.status(200).json({ message: 'Data received', result });
 });
 
 // Start the server

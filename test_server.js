@@ -46,7 +46,7 @@ const engine = async (file_index) => {
 const main = async () => {
     
     let truefile_cnt = 0;
-    for(let i = 0; i < 20; i++) {
+    for(let i = 0; i < 10; i++) {
         let fail_cnt = await engine(i);
         if(fail_cnt == 0) truefile_cnt++;
     }

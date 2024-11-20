@@ -1,11 +1,13 @@
-import OpenAI from 'openai';
-import nlp from "compromise"
-import translate from "google-translate-api-x";
+import fs from "fs/promises";
 import { KMMatcher } from "./KM_new.js"
 import { embedding } from "./gemini.js"
 import { logger } from "./logger.js";
-import { message } from "./openai_msg.js"
-import fs from "fs/promises";
+import {
+    is_question,
+    extractCoreWords1,
+    extractCoreWords2,
+    preprocessText
+} from "./tools.js"
 
 const TEXT_ARRAY_LENGTH = 128;
 
@@ -18,101 +20,6 @@ const writefile = async (data, text_name) => {
     }
 }
 
-async function translateText(text, targetLang) {
-    try {
-        const res = await translate(text, { to: targetLang });
-        return res.text;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-
-function splitTextIntoSentences(text) {
-    let adjustedText = text.replace(/-\s+/g, ". ");
-    adjustedText = adjustedText.replace(/\b(vs)\.\s+/g, "$1 ");
-    adjustedText = adjustedText.replace(/\b(sp|Op|No|Drs|Mr|Dr|Mrs)\.\s+/g, "$1_TEMP ");
-    let doc = nlp(adjustedText);
-    let sentences = doc.sentences().out('array');
-    return sentences.map(sentence => sentence.trim()); // Trim whitespace from each sentence
-}
-
-const is_question = async (text) => {
-    try {
-        const firstWord = text.trim().split(' ')[0];
-
-        const questionWords = [
-            "what",
-            "how",
-            "why",
-            "who",
-            "where",
-            "when",
-            "which",
-            "is",
-            "are",
-            "do",
-            "does",
-            "did",
-            "will",
-            "would",
-            "can",
-            "could",
-            "may",
-            "might",
-            "shall",
-            "should",
-            "must",
-            "was",
-            "were"
-        ];
-
-        const sentences = splitTextIntoSentences(text);
-
-        if (sentences.length < 2 && questionWords.includes(firstWord.toLowerCase())) {
-
-            return true
-        }
-
-        if (sentences.length > 2) {
-            return false
-        }
-
-
-        const isQuestion = await is_question_openai(text);
-        return isQuestion
-
-    } catch (error) {
-        console.log(error);
-        console.log(text)
-    }
-
-}
-
-
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY1, // This is the default and can be omitted
-});
-
-const is_question_openai = async (text) => {
-    try {
-        const chatCompletion = await client.chat.completions.create({
-            messages: [
-                ...message,
-                { role: 'user', content: text },
-                // {role: 'user', content:`${text}\n\n\n\n\n\nIs this a question? Provide me only "Yes" or "No"`}
-            ],
-            model: 'gpt-3.5-turbo',
-            // model: 'gpt-4o',
-        });
-
-        return chatCompletion.choices[0].message.content.indexOf("question") != -1;
-    } catch (error) {
-        console.log(error);
-        return false
-    }
-
-}
 
 
 
@@ -137,7 +44,7 @@ class Matcher {
 
     async solve(query) {
         const texts = query.texts;
-        const dimensions = query.dimensions;
+        const dimensions = query.dimensions || 128;
 
         logger.info(`Text Length: ${texts.length}`);
 
@@ -244,6 +151,18 @@ class Matcher {
 
         isQuestion = await this.checkQuestions(texts);
 
+        //for core words weight
+        for(let i = 0; i < texts.length; i++) {
+            // texts[i] = preprocessText(texts[i]);
+            if(isQuestion[i]){
+                
+                // let coreWords =  extractCoreWords1(texts[i]);
+                // let addCoreWords = ", " + coreWords.join(", ");
+                // texts[i] += addCoreWords.repeat(1);
+               
+            }
+        }
+
         if (!Array.isArray(texts)) {
             logger.error("Parameter should be an array.");
             return null;
@@ -317,7 +236,6 @@ class Matcher {
         }
 
 
-
         const m_KM = new KMMatcher(weights);
 
         logger.info(`Running KM Algorithm..., QuestionCnt:${questionCnt}`);
@@ -329,8 +247,10 @@ class Matcher {
         logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
 
 
-        let will_write = "";
+        let fail_value = 0;
+        let true_value = 0;
 
+        let will_write = "";
         weights.map((weight, i) => {
             let tmp = weight.map((item, j) => {
                 return {
@@ -377,20 +297,30 @@ class Matcher {
                     will_write += `Answer: ${i}, true_quetion: ${true_q_indices[index]}, expect: ${m_KM.xy[i]}\n`
                 }
             });
+            
             tmp.sort((a, b) => b.score - a.score);
             tmp.map(item => {
                 will_write += `${item.from.toString().padStart(3, 0)}: ${item.to.toString().padStart(3, 0)}: ${item.score.toFixed(4)}\t`
-            });
-            if (!is_true) will_write += "\n###########################################"
-            will_write += '\n\n'
 
+
+                // if( (item.from == 75 && item.to == 70) || (item.from == 97 && item.to == 22) ){
+                //     console.log(`${item.from.toString().padStart(3, 0)}: ${item.to.toString().padStart(3, 0)}: ${item.score.toFixed(4)}\t`);
+                //     fail_value += item.score;
+                // }
+                // if((item.from == 75 && item.to == 22) || (item.from == 97 && item.to == 70) ) {
+                //     console.log(`${item.from.toString().padStart(3, 0)}: ${item.to.toString().padStart(3, 0)}: ${item.score.toFixed(4)}\t`);
+                //     true_value += item.score;
+                // }
+
+
+            });
+            will_write += '\n\n'
+            if (!is_true) will_write += "\n###########################################"
         })
 
+        // console.log(`true_value: ${true_value.toFixed(4)} \nfail_value: ${fail_value.toFixed(4)} \ndelta: ${(true_value - fail_value).toFixed(4)}`);
+
         will_write += "--------------------------------------\n";
-        true_q_indices.forEach((q_idx, index) => {
-
-        });
-
         await writefile(will_write, text_name)
         //write info
 
