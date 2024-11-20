@@ -130,8 +130,8 @@ function expandText(text) {
 function preprocessText(text) {
     let cleaned = cleanText(text);
     let lemmatized = lemmatizeText(cleaned);
-    let expanded = expandText(lemmatized);
-    return expanded;
+    // let expanded = expandText(lemmatized);
+    return lemmatized;
 }
 
 export {
