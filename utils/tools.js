@@ -1,11 +1,7 @@
 import OpenAI from 'openai';
 import nlp from "compromise";
-import natural from "natural";
-import synonyms from 'synonyms';
 import { message } from "./openai_msg.js";
 
-const tokenizer = new natural.WordTokenizer();
-const stemmer = natural.PorterStemmer;
 
 function splitTextIntoSentences(text) {
     let adjustedText = text.replace(/-\s+/g, ". ");
@@ -39,8 +35,7 @@ function extractCoreWords1(sentence) {
 function extractCoreWords2(sentence) {
     const stopWords = ['the', 'a', 'an', 'does', 'at', 'in', 'on', 'for', 'to', 'and', 'with', 'of', 'is', 'by', 'this', 'that', 'it', 'be', 'not'];
     const questionWords = ["what", "how", "why", "who", "where", "when", "which", "is", "are", "do", "does", "did", "will", "would", "can", "could", "may", "might", "shall", "should", "must", "was", "were"];
-    const doc = nlp(sentence);
-    const words = doc.terms().out('array');
+    const words = sentence.split(" ");
     const filteredWords = words.filter(word => ![...stopWords, ...questionWords].includes(word.toLowerCase()));
     return filteredWords;
 }
@@ -97,46 +92,46 @@ const is_question_openai = async (text) => {
 
 }
 
-function cleanText(text) {
-    return text
-        .toLowerCase() // Convert to lowercase
-        .replace(/[^a-z0-9\s]/g, '') // Remove punctuation and special characters
-        .replace(/\s+/g, ' ') // Normalize whitespace
-        .trim(); // Remove leading/trailing spaces
+const make_questions_openai = async (text) => {
+    try {
+        const chatCompletion = await client.chat.completions.create({
+            messages: [
+                { role: 'user', content: `${text}\n\n\n \nprovide me 5 questions with this content\n dont need any description` },
+            ],
+            model: 'gpt-3.5-turbo',
+            // model: 'gpt-4o',
+        });
+
+        return chatCompletion.choices[0].message.content;
+    } catch (error) {
+        console.log(error);
+        return false
+    }
 }
 
-function lemmatizeText(text) {
-    const tokens = tokenizer.tokenize(text);
-    return tokens.map(word => stemmer.stem(word)).join(' ');
+const cleanText = (text) => {
+    return text.replace(/[^a-zA-Z0-9 .,!?"']/g, '');
 }
 
-function expandText(text) {
-    const words = text.split(' ');
-    const expandedWords = words.map(word => {
-        // Get synonyms for the word
-        const wordSynonyms = synonyms(word.toLowerCase(), 'n') || []; // 'n' for noun as an example
-        if (wordSynonyms.length > 0) {
-            // Randomly select a synonym if available
-            // const randomSynonym = wordSynonyms[Math.floor(Math.random() * wordSynonyms.length)];
-            const randomSynonym = wordSynonyms[0];
-            return randomSynonym;
-        }
-        return word; // Keep the word as-is if no synonyms are found
-    });
-
-    return expandedWords.join(' ');
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function preprocessText(text) {
-    let cleaned = cleanText(text);
-    let lemmatized = lemmatizeText(cleaned);
-    // let expanded = expandText(lemmatized);
-    return lemmatized;
+const keywordMatchScore = (question1, answer1) => {
+    const question = cleanText(question1);
+    const answer = cleanText(answer1);
+    const keywords = new Set(extractCoreWords2(question));
+    const wordsInAnswer = extractCoreWords2(answer);
+    const matchCount = wordsInAnswer.filter(word => keywords.has(word)).length;
+    return matchCount / (keywords.size); // Fraction of keywords matched
 }
 
 export {
     is_question,
+    make_questions_openai,
+    cleanText,
     extractCoreWords1,
     extractCoreWords2,
-    preprocessText
+    keywordMatchScore,
+    getRandomInt,
 }

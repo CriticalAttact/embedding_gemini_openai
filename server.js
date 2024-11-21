@@ -25,9 +25,9 @@ app.post('/embedding', async (req, res) => {
             texts,
             dimensions: texts.length
         });
-        res.status(200).json({ message: 'Data received', results });
+        res.status(200).json(results);
     } catch (error) {
-        res.status(500).json({message: "server error!", results:[]})
+        res.status(500).json([]);
     }
     
 });

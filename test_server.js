@@ -46,10 +46,17 @@ const engine = async (file_index) => {
 const main = async () => {
     
     let truefile_cnt = 0;
-    for(let i = 0; i < 10; i++) {
+    for(let i = 0; i < 100; i++) {
         let fail_cnt = await engine(i);
         if(fail_cnt == 0) truefile_cnt++;
     }
+
+
+    // let failed_array = [0,4,13,14,18,20,22,24,28,31,35,36,37,41,42,46,50,64,65,68,72,74,75,80,82,85,86,87,93,94,95,96,99];
+    // for(let i = 0; i < failed_array.length; i++) { //    failed_array.length
+    //     let fail_cnt = await engine(failed_array[i]);
+    //     if(fail_cnt == 0) truefile_cnt++;
+    // }
 
     console.log(`Success! ${truefile_cnt}`);
 
