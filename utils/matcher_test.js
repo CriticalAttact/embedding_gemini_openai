@@ -16,9 +16,9 @@ import {
 } from "./elastic.js"
 
 const TEXT_ARRAY_LENGTH = 128;
-const GEMINI_MAX_SCORE = 0.7;
-const KEYWORD_MAX_SCORE = 0.00;    // percent  0.0025
-const ELASTIC_MAX_SCORE = 0.3;       // percent
+const GEMINI_MAX_SCORE = 1;
+const KEYWORD_MAX_SCORE = 0.025;    // percent  0.0025
+const ELASTIC_MAX_SCORE = 0.07;       // percent
 
 const writefile = async (data, text_name) => {
     try {
@@ -87,11 +87,22 @@ class Matcher {
             const results = await Promise.all(promises);
             results.forEach(result => {
                 
-                if(result.questions != "")  texts[result.index] += "\n" + result.questions;
+                if(result.questions != "")  texts[result.index] += result.questions;
                
             });
         }
+
         
+        // /**
+        //  * Asking to open_ai
+        //  */
+
+        // if(getRandomInt(0, 6)>2|| true) {
+        //     logger.info(`Asking...`);
+        //     let startTime = Date.now();
+        //     await getQuestionsfromText();
+        //     logger.info(`Asking done in ${Date.now() - startTime}ms`);
+        // }        
         
         
         //embedding with gemini
@@ -99,45 +110,13 @@ class Matcher {
 
         let startTime = Date.now();
 
-        const embeddings = await embedding(texts.map(text => cleanText(text)));
+        const embeddings = await embedding(texts.map(text => (text)));
 
         logger.info(`Embedding done in ${Date.now() - startTime}ms`);
 
 
         
-        /**
-         * Asking to open_ai
-         */
 
-        if(getRandomInt(0, 6)>2|| true) {
-            logger.info(`Asking...`);
-            let startTime = Date.now();
-            await getQuestionsfromText();
-            logger.info(`Asking done in ${Date.now() - startTime}ms`);
-        }
-
-
-
-        /**
-         * additional option (keyword weight)
-         */
-        // let keywordScores = Array(TEXT_ARRAY_LENGTH).fill([]);
-        // for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-        //     keywordScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
-        // }
-        // for(let i = 0; i < texts.length; i++) {
-        //     for(let j = 0; j < texts.length; j++){
-               
-        //         if(isQuestion[i] == true && isQuestion[j]== false) {
-        //             let keywordScore = keywordMatchScore(texts[i], texts[j]);
-        //             keywordScores[i][j] = keywordScore;
-        //             keywordScores[j][i] = keywordScore;
-        //         }
-
-        //     }
-        // }
-
-        
         /**
          * additional option (elastic)
          */
@@ -149,25 +128,52 @@ class Matcher {
 
         let answersDatas = [];
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-            if(isQuestion[i] == false)  {
-                answersDatas.push({
-                    text:texts[i],
-                    id: i
-                })
-            }
+           
+            answersDatas.push({
+                text:texts[i],
+                id: i
+            })
+            
         }
 
         await addAllTexts(answersDatas);
 
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i ++) {
+            elasticScores[i][i] = -100;
             if(isQuestion[i]){
                 const results  = await searchText(texts[i]);
                 results.map(result => {
-                    elasticScores[i][result['_id']] = result["_score"];
-                    elasticScores[result['_id']][i] = result["_score"];
+                    if(i != result['_id']){
+                        elasticScores[i][result['_id']] = result["_score"];
+                        elasticScores[result['_id']][i] = result["_score"];
+                        if(isQuestion[result['_id']]) {
+                            elasticScores[i][result['_id']] *= 0.5;
+                            elasticScores[result['_id']][i] *= 0.5;
+                        }
+                    }
                 })
             }
         }
+
+        /**
+         * additional option (keyword weight)
+         */
+        let keywordScores = Array(TEXT_ARRAY_LENGTH).fill([]);
+        for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
+            keywordScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
+        }
+        for(let i = 0; i < texts.length; i++) {
+            for(let j = 0; j < texts.length; j++){
+               
+                if(isQuestion[i] == true && isQuestion[j]== false) {
+                    let keywordScore = keywordMatchScore(texts[i], texts[j]);
+                    keywordScores[i][j] = keywordScore;
+                    keywordScores[j][i] = keywordScore;
+                }
+
+            }
+        }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,16 +236,16 @@ class Matcher {
              * additional option (key word)
              */
             
-            // let max_key_weight = 0;
-            // for(let j =0; j < n; j++) {
-            //     max_weight = Math.max(weights[i][j], max_weight);
-            //     max_key_weight = Math.max(weights[i][j], max_key_weight);
-            // }
-            // if(max_key_weight == 0) max_key_weight = 1;
+            let max_key_weight = 0;
+            for(let j =0; j < n; j++) {
+                max_weight = Math.max(weights[i][j], max_weight);
+                max_key_weight = Math.max(keywordScores[i][j], max_key_weight);
+            }
+            if(max_key_weight == 0) max_key_weight = 1;
 
-            // for(let j = 0; j < n; j++) {
-            //     weights[i][j] += max_weight * KEYWORD_MAX_SCORE * (keywordScores[i][j] / max_key_weight);
-            // }
+            for(let j = 0; j < n; j++) {
+                weights[i][j] += max_weight * KEYWORD_MAX_SCORE * (keywordScores[i][j] / max_key_weight);
+            }
 
             /**
              * additional option (key word)
@@ -289,16 +295,16 @@ class Matcher {
                     if (true_a_indices[index] == m_KM.xy[i]) {
                         is_true = true;
                     } else {
-                        will_write += "###########################################\n";
-                        will_write += "------------question-----------------------\n";
-                        will_write += texts[i] + "\n";
-                        will_write += "------------correct----------------------\n";
-                        will_write += texts[true_a_indices[index]] + "\n"
-                        will_write += "------------expect----------------------\n";
-                        will_write += texts[m_KM.xy[i]] + "\n"
-                        will_write += "----------------------------------\n";
                         console.log({ from: i, to: m_KM.xy[i], correct: true_a_indices[index], delta: weights[i][true_a_indices[index]] - weights[i][m_KM.xy[i]] });
                     }
+                    will_write += "###########################################\n";
+                    will_write += "------------question-----------------------\n";
+                    will_write += texts[i] + "\n";
+                    will_write += "------------correct----------------------\n";
+                    will_write += texts[true_a_indices[index]] + "\n"
+                    will_write += "------------expect----------------------\n";
+                    will_write += texts[m_KM.xy[i]] + "\n"
+                    will_write += "----------------------------------\n";
                     will_write += `Question: ${i}, true_answer: ${true_a_indices[index]}, expect: ${m_KM.xy[i]}\n`
 
                 }
@@ -307,16 +313,15 @@ class Matcher {
                 if (a_idx == i) {
                     if (true_q_indices[index] == m_KM.xy[i]) {
                         is_true = true;
-                    } else {
-                        will_write += "###########################################\n";
-                        will_write += "------------question-----------------------\n";
-                        will_write += texts[i] + "\n";
-                        will_write += "------------correct----------------------\n";
-                        will_write += texts[true_q_indices[index]] + "\n"
-                        will_write += "------------expect----------------------\n";
-                        will_write += texts[m_KM.xy[i]] + "\n"
-                        will_write += "----------------------------------\n";
                     }
+                    will_write += "###########################################\n";
+                    will_write += "------------answer-----------------------\n";
+                    will_write += texts[i] + "\n";
+                    will_write += "------------correct----------------------\n";
+                    will_write += texts[true_q_indices[index]] + "\n"
+                    will_write += "------------expect----------------------\n";
+                    will_write += texts[m_KM.xy[i]] + "\n"
+                    will_write += "----------------------------------\n";
                     will_write += `Answer: ${i}, true_quetion: ${true_q_indices[index]}, expect: ${m_KM.xy[i]}\n`
                 }
             });

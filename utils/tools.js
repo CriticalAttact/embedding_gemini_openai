@@ -96,7 +96,7 @@ const make_questions_openai = async (text) => {
     try {
         const chatCompletion = await client.chat.completions.create({
             messages: [
-                { role: 'user', content: `${text}\n\n\n \nprovide me 5 questions with this content\n dont need any description` },
+                { role: 'user', content: `${text}\n\n\n \nprovide me description with this content. by one sentence\n dont need your annotation` },
             ],
             model: 'gpt-3.5-turbo',
             // model: 'gpt-4o',
