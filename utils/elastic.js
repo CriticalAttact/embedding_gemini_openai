@@ -6,10 +6,10 @@ const client = new Client({
     node: 'http://localhost:9200',
 })
 
-const addText = async (data) => {
+const addText = async (data, index = "my_index") => {
     try {
         await client.index({
-            index: 'my_index',
+            index: index,
             document: {
                 content: data.text,
             },
@@ -20,10 +20,10 @@ const addText = async (data) => {
     }
 }
 
-const deleteTexts = async () => {
+const deleteTexts = async (index = "my_index") => {
     try {
         await client.indices.delete({
-            index: "my_index",
+            index: index,
         });
     } catch (error) {
         console.log(error);
@@ -31,19 +31,22 @@ const deleteTexts = async () => {
 }
 
 
-const addAllTexts = async (datas) => {
-    await deleteTexts();
-    const promises = datas.map(async(data)=>{
-        await addText(data);
-    });
-    await Promise.all(promises);
+const addAllTexts = async (datas, index = "my_index") => {
+    try{
+        const promises = datas.map(async(data)=>{
+            await addText(data,index);
+        });
+        await Promise.all(promises);
+    }catch(error) {
+        console.log(error);
+    }
     await sleep(1000);
 }
 
-const searchText = async(question) => {
+const searchText = async(question, index = "my_index") => {
     try {
         const response = await client.search({
-            index: 'my_index',
+            index: index,
             query: {
                 match: { content: question },
             },
@@ -59,4 +62,5 @@ const searchText = async(question) => {
 export {
     searchText,
     addAllTexts,
+    deleteTexts,
 }

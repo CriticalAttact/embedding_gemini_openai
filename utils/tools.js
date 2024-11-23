@@ -28,7 +28,7 @@ function extractCoreWords1(sentence) {
     adjectives = Array(ad_times).fill(doc.match('#Adjective').out('array')).flat();
 
     const coreWords = [...nouns, ...verbs, ...adjectives, ...wordsWithEd];
-    
+
     return coreWords;
 }
 
@@ -117,6 +117,51 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
+function extractAllNumbersAsSingleString(str) {
+    const regex = /\d+/g;
+    const matches = str.match(regex);
+    const result = matches? matches.join("") : "0";
+    return parseInt(result);
+  }
+  
+
+const get_scores_openai = async (question, answers, idxs) => {
+    let content = "";
+    let tmp_content = "";
+    content += `Question: ${question}\n\n`;
+    answers.map((answer, idx)=>{
+        content += `Answer${idx} : ${answer}\n\n`
+        tmp_content += `"Answer${idx}", `;
+    });
+    content += `Which Answer is closly correct?\nProvide me only ${tmp_content}or "Not"\nDont need your description.`
+
+
+
+    const times = Array(3).fill(0);
+    let result = {};
+    try {
+        idxs.map(idx => {
+            result[idx] = 0;
+        });
+        const promises = times.map(async()=>{
+            const chatCompletion = await client.chat.completions.create({
+                messages: [
+                    { role: 'user', content: content},
+                ],
+                model: 'gpt-3.5-turbo',
+                // model: 'gpt-4o',
+            });
+    
+            result[idxs[extractAllNumbersAsSingleString(chatCompletion.choices[0].message.content) - 1]] += 0.3;
+        });
+        await Promise.all(promises);
+    } catch (error) {
+        console.log(error)
+    }
+    return result;
+}
+
 const keywordMatchScore = (question1, answer1) => {
     const question = cleanText(question1);
     const answer = cleanText(answer1);
@@ -134,4 +179,5 @@ export {
     extractCoreWords2,
     keywordMatchScore,
     getRandomInt,
+    get_scores_openai
 }

@@ -13,6 +13,7 @@ import {
 import {
     addAllTexts,
     searchText,
+    deleteTexts
 } from "./elastic.js"
 
 const TEXT_ARRAY_LENGTH = 128;
@@ -125,7 +126,7 @@ class Matcher {
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
             elasticScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
         }
-
+        let random_index = "my_index" + (new Date().getTime()).toString();
         let answersDatas = [];
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
            
@@ -136,12 +137,12 @@ class Matcher {
             
         }
 
-        await addAllTexts(answersDatas);
+        await addAllTexts(answersDatas, random_index);
 
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i ++) {
             elasticScores[i][i] = -100;
             if(isQuestion[i]){
-                const results  = await searchText(texts[i]);
+                const results  = await searchText(texts[i], random_index);
                 results.map(result => {
                     if(i != result['_id']){
                         elasticScores[i][result['_id']] = result["_score"];
@@ -154,6 +155,8 @@ class Matcher {
                 })
             }
         }
+
+        await deleteTexts(random_index);
 
         /**
          * additional option (keyword weight)
@@ -275,9 +278,6 @@ class Matcher {
 
         logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
 
-
-        let fail_value = 0;
-        let true_value = 0;
 
         let will_write = "";
         weights.map((weight, i) => {

@@ -20789,3 +20789,28 @@
 10:00:34 - [^_^]: [32mEmbedding done in 5707ms[39m
 10:00:36 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
 10:00:36 - [^_^]: [32mKM Algorithm took 1ms[39m
+10:12:04 - [^_^]: [32mText Length: 128[39m
+10:12:06 - [^_^]: [32mEmbedding...[39m
+10:12:18 - [^_^]: [32mEmbedding done in 12266ms[39m
+10:12:20 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+10:12:20 - [^_^]: [32mKM Algorithm took 4ms[39m
+10:12:20 - [^_^]: [31mfile_0: time: 15.911s  ,  failed_count: 4[39m
+10:12:20 - [^_^]: [32mText Length: 128[39m
+10:12:22 - [^_^]: [32mEmbedding...[39m
+23:52:42 - [^_^]: [32mText Length: 128[39m
+23:52:43 - [^_^]: [32mEmbedding...[39m
+23:52:53 - [^_^]: [32mEmbedding done in 9855ms[39m
+23:52:55 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+23:52:55 - [^_^]: [32mKM Algorithm took 4ms[39m
+23:52:55 - [^_^]: [31mfile_0: time: 13.393s  ,  failed_count: 4[39m
+23:52:55 - [^_^]: [32mText Length: 128[39m
+14:49:57 - [^_^]: [32mText Length: 128[39m
+14:49:59 - [^_^]: [32mEmbedding...[39m
+14:50:07 - [^_^]: [32mEmbedding done in 8310ms[39m
+14:50:28 - [^_^]: [32mText Length: 128[39m
+14:50:29 - [^_^]: [32mEmbedding...[39m
+14:50:37 - [^_^]: [32mEmbedding done in 7737ms[39m
+14:50:39 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+14:50:39 - [^_^]: [32mKM Algorithm took 3ms[39m
+14:50:39 - [^_^]: [31mfile_0: time: 11.405s  ,  failed_count: 4[39m
+14:50:39 - [^_^]: [32mText Length: 128[39m
