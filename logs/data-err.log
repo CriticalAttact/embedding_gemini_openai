@@ -20814,3 +20814,18 @@
 14:50:39 - [^_^]: [32mKM Algorithm took 3ms[39m
 14:50:39 - [^_^]: [31mfile_0: time: 11.405s  ,  failed_count: 4[39m
 14:50:39 - [^_^]: [32mText Length: 128[39m
+15:00:48 - [^_^]: [32mText Length: 128[39m
+15:00:49 - [^_^]: [32mEmbedding...[39m
+15:01:07 - [^_^]: [32mEmbedding done in 17915ms[39m
+15:01:09 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+15:01:09 - [^_^]: [32mKM Algorithm took 4ms[39m
+15:01:09 - [^_^]: [31mfile_0: time: 21.581s  ,  failed_count: 4[39m
+15:01:09 - [^_^]: [32mText Length: 128[39m
+15:02:19 - [^_^]: [32mText Length: 128[39m
+15:02:21 - [^_^]: [32mEmbedding...[39m
+15:02:29 - [^_^]: [32mEmbedding done in 8038ms[39m
+15:02:31 - [^_^]: [32mRunning KM Algorithm..., QuestionCnt:64[39m
+15:02:31 - [^_^]: [32mKM Algorithm took 3ms[39m
+15:02:31 - [^_^]: [31mfile_0: time: 11.745s  ,  failed_count: 4[39m
+15:02:31 - [^_^]: [32mText Length: 128[39m
+15:02:33 - [^_^]: [32mEmbedding...[39m

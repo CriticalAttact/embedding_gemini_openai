@@ -5,6 +5,7 @@ import { logger } from "./logger.js";
 import {
     is_question,
     keywordMatchScore,
+    cleanText,
     make_questions_openai,
     getRandomInt
 } from "./tools.js"
@@ -12,12 +13,23 @@ import {
 import {
     addAllTexts,
     searchText,
+    deleteTexts
 } from "./elastic.js"
 
 const TEXT_ARRAY_LENGTH = 128;
 const GEMINI_MAX_SCORE = 1;
 const KEYWORD_MAX_SCORE = 0.025;    // percent  0.0025
 const ELASTIC_MAX_SCORE = 0.07;       // percent
+
+const writefile = async (data, text_name) => {
+    try {
+        await fs.writeFile(`./example/${text_name}.txt`, data);
+        console.log('File written successfully');
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 
 
 
@@ -39,10 +51,12 @@ class Matcher {
         return isQuestion;
     }
 
-    async solve(query) {
+    async solve_test(query) {
         const texts = query.texts;
         const dimensions = query.dimensions;
-        
+        const true_a_indices = query.true_a_indices;
+        const true_q_indices = query.true_q_indices
+        const text_name = query.text_name;
 
         logger.info(`Text Length: ${texts.length}`);
 
@@ -59,6 +73,38 @@ class Matcher {
         let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
         isQuestion = await this.checkQuestions(texts);
 
+        const getQuestionsfromText = async () => {
+            const promises = texts.map(async (text, index) => {
+                if(isQuestion[index]) {
+                    return {
+                        index,
+                        questions: ""
+                    }
+                }
+                const questions = await make_questions_openai(text);
+                return {index, questions};
+            });
+
+            const results = await Promise.all(promises);
+            results.forEach(result => {
+                
+                if(result.questions != "")  texts[result.index] += result.questions;
+               
+            });
+        }
+
+        
+        // /**
+        //  * Asking to open_ai
+        //  */
+
+        // if(getRandomInt(0, 6)>2|| true) {
+        //     logger.info(`Asking...`);
+        //     let startTime = Date.now();
+        //     await getQuestionsfromText();
+        //     logger.info(`Asking done in ${Date.now() - startTime}ms`);
+        // }        
+        
         
         //embedding with gemini
         logger.info(`Embedding...`);
@@ -80,7 +126,7 @@ class Matcher {
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
             elasticScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
         }
-
+        let random_index = "my_index" + (new Date().getTime()).toString();
         let answersDatas = [];
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
            
@@ -91,12 +137,12 @@ class Matcher {
             
         }
 
-        await addAllTexts(answersDatas);
+        await addAllTexts(answersDatas, random_index);
 
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i ++) {
             elasticScores[i][i] = -100;
             if(isQuestion[i]){
-                const results  = await searchText(texts[i]);
+                const results  = await searchText(texts[i], random_index);
                 results.map(result => {
                     if(i != result['_id']){
                         elasticScores[i][result['_id']] = result["_score"];
@@ -109,6 +155,8 @@ class Matcher {
                 })
             }
         }
+
+        await deleteTexts(random_index);
 
         /**
          * additional option (keyword weight)
@@ -229,7 +277,7 @@ class Matcher {
         const best = m_KM.solve();
 
         logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
-        
+
         return m_KM.xy
 
     }
