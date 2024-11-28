@@ -1,14 +1,11 @@
-import fs from "fs/promises";
 import { KMMatcher } from "./KM_new.js"
 import { embedding } from "./gemini.js"
 import { logger } from "./logger.js";
 import {
     is_question,
-    keywordMatchScore,
-    cleanText,
-    make_questions_openai,
-    getRandomInt
 } from "./tools.js"
+
+import { marco_embedding } from "./ms_marco_server.js";
 
 import {
     addAllTexts,
@@ -17,9 +14,9 @@ import {
 } from "./elastic.js"
 
 const TEXT_ARRAY_LENGTH = 128;
+const MARCO_MAX_SCORE = 1;
 const GEMINI_MAX_SCORE = 1;
-const KEYWORD_MAX_SCORE = 0.025;    // percent  0.0025
-const ELASTIC_MAX_SCORE = 0.07;       // percent
+const ELASTIC_MAX_SCORE = 0.24;
 
 const writefile = async (data, text_name) => {
     try {
@@ -51,12 +48,9 @@ class Matcher {
         return isQuestion;
     }
 
-    async solve_test(query) {
+    async solve(query) {
         const texts = query.texts;
         const dimensions = query.dimensions;
-        const true_a_indices = query.true_a_indices;
-        const true_q_indices = query.true_q_indices
-        const text_name = query.text_name;
 
         logger.info(`Text Length: ${texts.length}`);
 
@@ -72,38 +66,6 @@ class Matcher {
 
         let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
         isQuestion = await this.checkQuestions(texts);
-
-        const getQuestionsfromText = async () => {
-            const promises = texts.map(async (text, index) => {
-                if(isQuestion[index]) {
-                    return {
-                        index,
-                        questions: ""
-                    }
-                }
-                const questions = await make_questions_openai(text);
-                return {index, questions};
-            });
-
-            const results = await Promise.all(promises);
-            results.forEach(result => {
-                
-                if(result.questions != "")  texts[result.index] += result.questions;
-               
-            });
-        }
-
-        
-        // /**
-        //  * Asking to open_ai
-        //  */
-
-        // if(getRandomInt(0, 6)>2|| true) {
-        //     logger.info(`Asking...`);
-        //     let startTime = Date.now();
-        //     await getQuestionsfromText();
-        //     logger.info(`Asking done in ${Date.now() - startTime}ms`);
-        // }        
         
         
         //embedding with gemini
@@ -111,12 +73,20 @@ class Matcher {
 
         let startTime = Date.now();
 
-        const embeddings = await embedding(texts.map(text => (text)));
+        let embeddings;
 
-        logger.info(`Embedding done in ${Date.now() - startTime}ms`);
+        try {
+            const marco_result = await marco_embedding(texts);
+            if(marco_result) {
+                embeddings = marco_result;
+            } else {
+                embeddings = await embedding(texts.map(text => (text)));
+            }
+        } catch (error) {
+            embeddings = await embedding(texts.map(text => (text)));
+        }
 
-
-        
+        logger.info(`MARCO_Embedding done in ${Date.now() - startTime}ms`);
 
         /**
          * additional option (elastic)
@@ -158,27 +128,7 @@ class Matcher {
 
         await deleteTexts(random_index);
 
-        /**
-         * additional option (keyword weight)
-         */
-        let keywordScores = Array(TEXT_ARRAY_LENGTH).fill([]);
-        for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-            keywordScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
-        }
-        for(let i = 0; i < texts.length; i++) {
-            for(let j = 0; j < texts.length; j++){
-               
-                if(isQuestion[i] == true && isQuestion[j]== false) {
-                    let keywordScore = keywordMatchScore(texts[i], texts[j]);
-                    keywordScores[i][j] = keywordScore;
-                    keywordScores[j][i] = keywordScore;
-                }
-
-            }
-        }
-
-
-
+        
 ////////////////////////////////////////////////////////////////////////////////
 
         const cosineSimilarity = (vecA, vecB) => {
@@ -198,8 +148,8 @@ class Matcher {
         for (let i = 0; i < embeddings.length; i++) {
             for (let j = i + 1; j < embeddings.length; j++) {
                 const similarities = cosineSimilarity(embeddings[i], embeddings[j]);
-                weights[i][j] = similarities * GEMINI_MAX_SCORE;
-                weights[j][i] = similarities * GEMINI_MAX_SCORE;
+                weights[i][j] = similarities * MARCO_MAX_SCORE;
+                weights[j][i] = similarities * MARCO_MAX_SCORE;
             }
         }
 
@@ -236,22 +186,7 @@ class Matcher {
 
 
             /**
-             * additional option (key word)
-             */
-            
-            let max_key_weight = 0;
-            for(let j =0; j < n; j++) {
-                max_weight = Math.max(weights[i][j], max_weight);
-                max_key_weight = Math.max(keywordScores[i][j], max_key_weight);
-            }
-            if(max_key_weight == 0) max_key_weight = 1;
-
-            for(let j = 0; j < n; j++) {
-                weights[i][j] += max_weight * KEYWORD_MAX_SCORE * (keywordScores[i][j] / max_key_weight);
-            }
-
-            /**
-             * additional option (key word)
+             * additional option (elastic)
              */
             max_weight = 0;
             let max_elastic_weight = 0;
@@ -267,7 +202,70 @@ class Matcher {
 
         }
 
+       try {
+             ///////////gemini
+            logger.info(`Embedding...`);
+            startTime = Date.now();
+            let gemini_embeddings = await embedding(texts.map(text => (text)));
+            logger.info(`GEMINI_Embedding done in ${Date.now() - startTime}ms`);
 
+            const gemini_weights = [];
+
+            for (let i = 0; i < n; i++) {
+                gemini_weights[i] = Array(dimensions).fill(0);
+            }
+
+            for (let i = 0; i < gemini_embeddings.length; i++) {
+                for (let j = i + 1; j < gemini_embeddings.length; j++) {
+                    const similarities = cosineSimilarity(gemini_embeddings[i], gemini_embeddings[j]);
+                    gemini_weights[i][j] = similarities * GEMINI_MAX_SCORE;
+                    gemini_weights[j][i] = similarities * GEMINI_MAX_SCORE;
+                }
+            }
+
+            min_weight = Infinity;
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    min_weight = Math.min(min_weight, gemini_weights[i][j]);
+                }
+            }
+
+
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    gemini_weights[i][j] -= min_weight;
+                }
+
+                gemini_weights[i][i] = 0;
+
+                const T = 0.5;
+                let max_weight = 0;
+
+                for (let j = 0; j < n; j++) {
+                    if (isQuestion[i] === isQuestion[j]) {
+                        gemini_weights[i][j] *= T;
+                    }
+                    if (!isQuestion[i] === !isQuestion[j]) {
+                        gemini_weights[i][j] *= T;
+                    }
+                }
+
+            }
+
+            //////////////////////////////////weight + gemini
+            for(let i = 0; i < n; i++) {
+                for(let j = 0; j < n; j++) {
+                    weights[i][j] += gemini_weights[i][j];
+                }
+            }
+
+       } catch (error) {
+            console.log(error);
+       }
+
+
+
+       
         const m_KM = new KMMatcher(weights);
 
         logger.info(`Running KM Algorithm..., QuestionCnt:${questionCnt}`);
@@ -277,7 +275,7 @@ class Matcher {
         const best = m_KM.solve();
 
         logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
-
+        
         return m_KM.xy
 
     }

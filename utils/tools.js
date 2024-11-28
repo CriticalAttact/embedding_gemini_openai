@@ -80,8 +80,9 @@ const is_question_openai = async (text) => {
                 { role: 'user', content: text },
                 // {role: 'user', content:`${text}\n\n\n\n\n\nIs this a question? Provide me only "Yes" or "No"`}
             ],
-            model: 'gpt-3.5-turbo',
-            // model: 'gpt-4o',
+            // model: 'gpt-3.5-turbo',
+            model: 'gpt-4o',
+            // model: 'gpt-4o-mini'
         });
 
         return chatCompletion.choices[0].message.content.indexOf("question") != -1;
@@ -98,8 +99,9 @@ const make_questions_openai = async (text) => {
             messages: [
                 { role: 'user', content: `${text}\n\n\n \nprovide me description with this content. by one sentence\n dont need your annotation` },
             ],
-            model: 'gpt-3.5-turbo',
+            // model: 'gpt-3.5-turbo',
             // model: 'gpt-4o',
+            model: 'gpt-4o-mini'
         });
 
         return chatCompletion.choices[0].message.content;
@@ -121,22 +123,18 @@ function getRandomInt(min, max) {
 function extractAllNumbersAsSingleString(str) {
     const regex = /\d+/g;
     const matches = str.match(regex);
-    const result = matches? matches.join("") : "0";
-    return parseInt(result);
+    const result = matches? matches.join("") : "";
+    if(result){
+        return parseInt(result);
+    }
+    return 0;
   }
   
 
-const get_scores_openai = async (question, answers, idxs) => {
-    let content = "";
-    let tmp_content = "";
-    content += `Question: ${question}\n\n`;
-    answers.map((answer, idx)=>{
-        content += `Answer${idx} : ${answer}\n\n`
-        tmp_content += `"Answer${idx}", `;
-    });
-    content += `Which Answer is closly correct?\nProvide me only ${tmp_content}or "Not"\nDont need your description.`
-
-
+const get_scores_openai = async (questions, answers, idxs, delta) => {
+    // if(idxs[0] == 41) {
+    //     console.log(`Question1: ${questions[0]}\n\nQuestion2: ${questions[1]}\n\nAnswer1: ${answers[0]}\n\nAnswer2: ${answers[1]}\n\nI already provided you questions and answers.\nWith these, I need two correct question and answer pairs.\nConsider Answers meaning And provide me high weight of pairs.\nAvailable pairs:\nQuestion1 -> Answer1\nQuestion1 -> Answer2\nQuestion2 -> Answer1\nQuestion2 -> Answer2\n\nprovide me only like this.\nThere is no same answer`);
+    // }
 
     const times = Array(3).fill(0);
     let result = {};
@@ -144,16 +142,25 @@ const get_scores_openai = async (question, answers, idxs) => {
         idxs.map(idx => {
             result[idx] = 0;
         });
-        const promises = times.map(async()=>{
+        const promises = times.map(async(i)=>{
             const chatCompletion = await client.chat.completions.create({
-                messages: [
-                    { role: 'user', content: content},
+
+                messages:[
+                    { role: 'user', content: `Question1: ${questions[0]}\n\nQuestion2: ${questions[1]}\n\nAnswer1: ${answers[0]}\n\nAnswer2: ${answers[1]}\n\nI already provided you questions and answers.\nWith these, I need two correct question and answer pairs.\nConsider Answers meaning And provide me high weight of pairs.\nAvailable pairs:\nQuestion1 -> Answer1\nQuestion1 -> Answer2\nQuestion2 -> Answer1\nQuestion2 -> Answer2\n\nprovide me only like this.\nThere is no same answer`}
                 ],
-                model: 'gpt-3.5-turbo',
-                // model: 'gpt-4o',
+                // model: 'gpt-3.5-turbo',
+                // model: 'gpt-4',
+                model: 'gpt-4o-mini'
             });
-    
-            result[idxs[extractAllNumbersAsSingleString(chatCompletion.choices[0].message.content) - 1]] += 0.3;
+
+           
+            if(chatCompletion.choices[0].message.content.indexOf('Question1 -> Answer1') != -1){
+                result[idxs[0]] += 0.02;
+            }
+            if(chatCompletion.choices[0].message.content.indexOf('Question1 -> Answer2') != -1){
+                result[idxs[1]] += 0.02;
+            }
+
         });
         await Promise.all(promises);
     } catch (error) {
