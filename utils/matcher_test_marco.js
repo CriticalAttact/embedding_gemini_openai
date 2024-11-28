@@ -7,7 +7,7 @@ import {
     keywordMatchScore,
 } from "./tools.js"
 
-import { marco_embedding } from "./ms_marco_server.js";
+import { marco_embedding } from "./ms_marco_test.js";
 
 import {
     addAllTexts,

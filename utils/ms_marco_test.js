@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 function runPythonScript(parameters) {
   return new Promise((resolve, reject) => {
     // Spawn the Python process
-    const pythonProcess = spawn('python', ['utils/script.py', ...parameters]);
+    const pythonProcess = spawn('python', ['utils/script_test.py', ...parameters]);
 
     let output = '';
     let error = '';
