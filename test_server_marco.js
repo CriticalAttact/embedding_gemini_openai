@@ -71,7 +71,7 @@ const main = async () => {
     // }
 
     // let truefile_cnt = 0;
-    // let failed_array = [47];//[11,27,28,35,38,42,43,46,47]
+    // let failed_array = [38,51,52,64,70,72,77,79,90,96];//[11,27,28,35,38,42,43,46,47]
     // for(let i = 0; i < failed_array.length; i++) {
     //     let fail_cnt = await engine(failed_array[i]);
     //     if(fail_cnt == 0) truefile_cnt++;
@@ -79,7 +79,7 @@ const main = async () => {
     // logger.error(`Success! ${truefile_cnt}`);
 
     let truefile_cnt = 0;
-    for(let i = 37; i < 100; i++) { 
+    for(let i = 1; i < 100; i++) { 
         let fail_cnt = await engine(i);
         if(fail_cnt == 0) truefile_cnt++;
     }

@@ -169,6 +169,47 @@ const get_scores_openai = async (questions, answers, idxs, delta) => {
     return result;
 }
 
+
+
+
+
+const getScoreWithQuestion = async (question, answers) => {
+    let result = [0, 0];
+
+    const times = Array(4).fill(0);
+    try {
+        
+        const promises = times.map(async(i)=>{
+            const chatCompletion = await client.chat.completions.create({
+
+                messages:[
+                    { role: 'user', content: `Question: ${question}\n\nAnswer1: ${answers[0]}\n\nAnswer2: ${answers[1]}\n\nI already provided you question and answers.\nWith these, I need two correct answer.\nConsider Answers meaning And provide me high weight of answer.provide me only "Answer1" or "Answer2" or "Both"`}
+                ],
+                // model: 'gpt-3.5-turbo',
+                // model: 'gpt-4',
+                model: 'gpt-4o-mini'
+            });
+
+           
+            if(chatCompletion.choices[0].message.content.indexOf('Answer1') != -1){
+                result[0] += 0.025;
+            }
+            if(chatCompletion.choices[0].message.content.indexOf('Answer2') != -1){
+                result[1] += 0.025;
+            }
+
+        });
+        await Promise.all(promises);
+    } catch (error) {
+        console.log(error)
+    }
+    return result;
+}
+
+
+
+
+
 const keywordMatchScore = (question1, answer1) => {
     const question = cleanText(question1);
     const answer = cleanText(answer1);
@@ -186,5 +227,6 @@ export {
     extractCoreWords2,
     keywordMatchScore,
     getRandomInt,
-    get_scores_openai
+    get_scores_openai,
+    getScoreWithQuestion
 }

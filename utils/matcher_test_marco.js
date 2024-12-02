@@ -5,6 +5,7 @@ import { logger } from "./logger.js";
 import {
     is_question,
     keywordMatchScore,
+    getScoreWithQuestion,
 } from "./tools.js"
 
 import { marco_embedding } from "./ms_marco_test.js";
@@ -16,10 +17,9 @@ import {
 } from "./elastic.js"
 
 const TEXT_ARRAY_LENGTH = 128;
-const MARCO_MAX_SCORE = 1;
 const GEMINI_MAX_SCORE = 1;
-const KEYWORD_MAX_SCORE = 0.00;    // percent  0.025
-const ELASTIC_MAX_SCORE = 0.24;       // percent 0.07
+const MARCO_MAX_SCORE = 1;
+const STELLA_MAX_SCORE = 1;
 
 const writefile = async (data, text_name) => {
     try {
@@ -29,6 +29,59 @@ const writefile = async (data, text_name) => {
         console.error('Error:', error);
     }
 }
+
+const cosineSimilarity = (vecA, vecB) => {
+    const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
+    const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+    const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+    return dotProduct / (magnitudeA * magnitudeB);
+};
+
+const getWeigths = (embeddings, isQuestion, MAX_SCORE, dimensions = 128) => {
+    const n = TEXT_ARRAY_LENGTH;
+    const weights = [];
+    for (let i = 0; i < n; i++) {
+        weights[i] = Array(dimensions).fill(0);
+    }
+
+    for (let i = 0; i < embeddings.length; i++) {
+        for (let j = i + 1; j < embeddings.length; j++) {
+            const similarities = cosineSimilarity(embeddings[i], embeddings[j]);
+            weights[i][j] = similarities * MAX_SCORE;
+            weights[j][i] = similarities * MAX_SCORE;
+        }
+    }
+
+    let min_weight = Infinity;
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            min_weight = Math.min(min_weight, weights[i][j]);
+        }
+    }
+
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            weights[i][j] -= min_weight;
+        }
+
+        weights[i][i] = 0;
+
+        const T = 0.5;
+
+        for (let j = 0; j < n; j++) {
+            if (isQuestion[i] === isQuestion[j]) {
+                weights[i][j] *= T;
+            }
+            if (!isQuestion[i] === !isQuestion[j]) {
+                weights[i][j] *= T;
+            }
+        }
+
+    }
+
+    return weights;
+} 
 
 
 
@@ -58,41 +111,206 @@ class Matcher {
         const true_q_indices = query.true_q_indices
         const text_name = query.text_name;
 
+        const true_pairs = new Map();
+        true_q_indices.map((q_i, idx) => {
+            true_pairs.set(q_i, true_a_indices[idx]);
+        })
+
         logger.info(`Text Length: ${texts.length}`);
 
         if (!Array.isArray(texts)) {
             logger.error("Parameter should be an array.");
             return null;
         }
-
+        
         if (texts.length !== TEXT_ARRAY_LENGTH) {
             logger.error("Array length does not match.");
             return null;
         }
+        const n = TEXT_ARRAY_LENGTH;
 
         let isQuestion = Array(TEXT_ARRAY_LENGTH).fill(false);
         isQuestion = await this.checkQuestions(texts);
         
-        
-        //embedding with gemini
+        let questionCnt = 0;
+
+        for (let i = 0; i < n; i++)
+            isQuestion[i] == true && questionCnt++;
+        logger.info(`Question count: ${questionCnt}`);
+
         logger.info(`Embedding...`);
-
         let startTime = Date.now();
-
         let embeddings;
-
-        try {
-            const marco_result = await marco_embedding(texts);
-            if(marco_result) {
-                embeddings = marco_result;
-            } else {
+        while(true) {
+            try {
                 embeddings = await embedding(texts.map(text => (text)));
-            }
-        } catch (error) {
-            embeddings = await embedding(texts.map(text => (text)));
+                break;
+            } catch (error) {
+                console.log(error);
+            }``
         }
 
-        logger.info(`MARCO_Embedding done in ${Date.now() - startTime}ms`);
+        logger.info(`GEMINI_Embedding done in ${Date.now() - startTime}ms`);
+
+
+        let weights = [];
+        weights = getWeigths(embeddings, isQuestion, GEMINI_MAX_SCORE, TEXT_ARRAY_LENGTH);
+
+        
+        const m_KM = new KMMatcher(weights);
+
+        logger.info(`Running KM Algorithm...`);
+
+        startTime = Date.now();
+
+        const best = m_KM.solve();
+
+        logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
+
+
+        /////////////////check out dangerous file
+        const limited_dangerous = 0.07;
+        let sorted_weights = [];
+
+        weights.map((weight, i) => {
+            let tmp = weight.map((item, j) => {
+                return {
+                    score: item,
+                    from: i,
+                    to: j
+                }
+            });
+
+            tmp.sort((a, b) => b.score - a.score);
+            sorted_weights.push(tmp);
+        });
+
+        let dangerous_questions = [];
+
+        for(let i = 0 ; i < n; i++) {
+            if(!isQuestion[i]) continue;
+            for(let j = 0; j < n; j++) {
+                if(sorted_weights[i][j].to == m_KM.xy[i]) {
+                    let front_cnt = 0;
+                    if(j == 0) {
+                        front_cnt ++;
+                        if(sorted_weights[i][j].score - sorted_weights[i][j + 1].score < limited_dangerous) {
+                            let next_answer_index = sorted_weights[i][j + 1].to;
+                            let next_question_index = m_KM.xy[next_answer_index];
+                            for(let k = 0; k < n; k++){
+                                if(sorted_weights[next_question_index][k].to == next_answer_index) {
+                                    if(k == 0) {
+                                        front_cnt ++;
+                                        if(front_cnt == 2) break;
+                                        if(sorted_weights[i][j].to != sorted_weights[next_question_index][k + 1].to) break;
+
+                                        if(sorted_weights[next_question_index][k].score - sorted_weights[next_question_index][k + 1].score < limited_dangerous){
+                                            dangerous_questions.push(i);
+                                        }
+                                        break;
+                                    } else {
+                                        if(sorted_weights[i][j].to != sorted_weights[next_question_index][k - 1].to) break;
+
+                                        if(sorted_weights[next_question_index][k - 1].score - sorted_weights[next_question_index][k].score < limited_dangerous){
+                                            dangerous_questions.push(i);
+                                        }
+                                        break;
+                                    }                                 
+                                }
+                            }
+                        }
+                    } else {
+                        if(sorted_weights[i][j - 1].score - sorted_weights[i][j].score < limited_dangerous) {
+                            let next_answer_index = sorted_weights[i][j - 1].to;
+                            let next_question_index = m_KM.xy[next_answer_index];
+
+                            for(let k = 0; k < n; k++){
+                                if(sorted_weights[next_question_index][k].to == next_answer_index) {
+                                    if(k == 0) {
+                                        if(sorted_weights[i][j].to != sorted_weights[next_question_index][k + 1].to) break;
+
+                                        if(sorted_weights[next_question_index][k].score - sorted_weights[next_question_index][k + 1].score < limited_dangerous){
+                                            dangerous_questions.push(i);
+                                        }
+                                        break;
+                                    } else {
+                                        if(sorted_weights[i][j].to != sorted_weights[next_question_index][k - 1].to) break;
+
+                                        if(sorted_weights[next_question_index][k - 1].score - sorted_weights[next_question_index][k].score < limited_dangerous){
+                                            dangerous_questions.push(i);
+                                        }
+                                        break;
+                                    }                                 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        logger.info(dangerous_questions);
+
+        let stella_weights, marco1_weights, marco2_weights, marco3_weights;
+
+        try {
+            logger.info(`Embedding...`);
+            startTime = Date.now();
+            let hf_embeddings = await marco_embedding(texts);
+            logger.info(`HF_Embedding done in ${Date.now() - startTime}ms`);
+
+            let embeddings_stella = hf_embeddings.embeddings_stella;
+            let embeddings_marco1 = hf_embeddings.embeddings_marco1;
+            let embeddings_marco2 = hf_embeddings.embeddings_marco2;
+            let embeddings_marco3 = hf_embeddings.embeddings_marco3;
+
+            stella_weights = getWeigths(embeddings_stella, isQuestion, STELLA_MAX_SCORE, TEXT_ARRAY_LENGTH);
+            marco1_weights = getWeigths(embeddings_marco1, isQuestion, MARCO_MAX_SCORE, TEXT_ARRAY_LENGTH);
+            marco2_weights = getWeigths(embeddings_marco2, isQuestion, MARCO_MAX_SCORE, TEXT_ARRAY_LENGTH);
+            marco3_weights = getWeigths(embeddings_marco3, isQuestion, MARCO_MAX_SCORE, TEXT_ARRAY_LENGTH);
+
+
+        } catch (error) {
+            console.log(error);
+        }
+/////////////////////////////////////////////////////
+        const stella_KM = new KMMatcher(stella_weights);
+        logger.info(`Running KM Algorithm...`);
+
+        startTime = Date.now();
+
+        const stella_best = stella_KM.solve();
+
+        logger.info(`Stella KM Algorithm took ${Date.now() - startTime}ms`);
+////////////////////////////////////////////////
+        const marco1_KM = new KMMatcher(marco1_weights);
+        logger.info(`Running KM Algorithm...`);
+
+        startTime = Date.now();
+
+        const marco1_best = marco1_KM.solve();
+
+        logger.info(`Marco1 KM Algorithm took ${Date.now() - startTime}ms`);
+//////////////////////////////////////////////////////
+        const marco2_KM = new KMMatcher(marco2_weights);
+        logger.info(`Running KM Algorithm...`);
+
+        startTime = Date.now();
+
+        const marco2_best = marco2_KM.solve();
+
+        logger.info(`Marco2 KM Algorithm took ${Date.now() - startTime}ms`);
+////////////////////////////////////////////////////////
+        const marco3_KM = new KMMatcher(marco3_weights);
+        logger.info(`Running KM Algorithm...`);
+
+        startTime = Date.now();
+
+        const marco3_best = marco3_KM.solve();
+
+        logger.info(`Marco3 KM Algorithm took ${Date.now() - startTime}ms`);
+        
+
 
         /**
          * additional option (elastic)
@@ -105,7 +323,7 @@ class Matcher {
         let random_index = "my_index" + (new Date().getTime()).toString();
         let answersDatas = [];
         for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-           
+        
             answersDatas.push({
                 text:texts[i],
                 id: i
@@ -134,188 +352,49 @@ class Matcher {
 
         await deleteTexts(random_index);
 
-        /**
-         * additional option (keyword weight)
-         */
-        let keywordScores = Array(TEXT_ARRAY_LENGTH).fill([]);
-        for(let i = 0; i < TEXT_ARRAY_LENGTH; i++){
-            keywordScores[i] = Array(TEXT_ARRAY_LENGTH).fill(0);
-        }
-        for(let i = 0; i < texts.length; i++) {
-            for(let j = 0; j < texts.length; j++){
-               
-                if(isQuestion[i] == true && isQuestion[j]== false) {
-                    let keywordScore = keywordMatchScore(texts[i], texts[j]);
-                    keywordScores[i][j] = keywordScore;
-                    keywordScores[j][i] = keywordScore;
-                }
-
-            }
-        }
-
-////////////////////////////////////////////////////////////////////////////////
-
-        const cosineSimilarity = (vecA, vecB) => {
-            const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
-            const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
-            const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
-            return dotProduct / (magnitudeA * magnitudeB);
-        };
-
-        const weights = [];
-        const n = TEXT_ARRAY_LENGTH;
-
-        for (let i = 0; i < n; i++) {
-            weights[i] = Array(dimensions).fill(0);
-        }
-
-        for (let i = 0; i < embeddings.length; i++) {
-            for (let j = i + 1; j < embeddings.length; j++) {
-                const similarities = cosineSimilarity(embeddings[i], embeddings[j]);
-                weights[i][j] = similarities * MARCO_MAX_SCORE;
-                weights[j][i] = similarities * MARCO_MAX_SCORE;
-            }
-        }
-
-        let min_weight = Infinity;
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n; j++) {
-                min_weight = Math.min(min_weight, weights[i][j]);
-            }
-        }
-
-        let questionCnt = 0;
-
-        for (let i = 0; i < n; i++)
-            isQuestion[i] == true && questionCnt++;
-
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n; j++) {
-                weights[i][j] -= min_weight;
-            }
-
-            weights[i][i] = 0;
-
-            const T = 0.5;
-            let max_weight = 0;
-
-            for (let j = 0; j < n; j++) {
-                if (isQuestion[i] === isQuestion[j]) {
-                    weights[i][j] *= T;
-                }
-                if (!isQuestion[i] === !isQuestion[j]) {
-                    weights[i][j] *= T;
-                }
-            }
-
-
-            /**
-             * additional option (key word)
-             */
-            
-            let max_key_weight = 0;
-            for(let j =0; j < n; j++) {
-                max_weight = Math.max(weights[i][j], max_weight);
-                max_key_weight = Math.max(keywordScores[i][j], max_key_weight);
-            }
-            if(max_key_weight == 0) max_key_weight = 1;
-
-            for(let j = 0; j < n; j++) {
-                weights[i][j] += max_weight * KEYWORD_MAX_SCORE * (keywordScores[i][j] / max_key_weight);
-            }
-
-            /**
-             * additional option (key word)
-             */
-            max_weight = 0;
-            let max_elastic_weight = 0;
-            for(let j =0; j < n; j++) {
-                max_weight = Math.max(weights[i][j], max_weight);
-                max_elastic_weight = Math.max(elasticScores[i][j], max_elastic_weight);
-            }
-            if(max_elastic_weight == 0) max_elastic_weight = 1;
-
-            for(let j = 0; j < n; j++) {
-                weights[i][j] += max_weight * ELASTIC_MAX_SCORE * (elasticScores[i][j] / max_elastic_weight);
-            }
-
-        }
-
-       try {
-             ///////////gemini
-            logger.info(`Embedding...`);
-            startTime = Date.now();
-            let gemini_embeddings = await embedding(texts.map(text => (text)));
-            logger.info(`GEMINI_Embedding done in ${Date.now() - startTime}ms`);
-
-            const gemini_weights = [];
-
-            for (let i = 0; i < n; i++) {
-                gemini_weights[i] = Array(dimensions).fill(0);
-            }
-
-            for (let i = 0; i < gemini_embeddings.length; i++) {
-                for (let j = i + 1; j < gemini_embeddings.length; j++) {
-                    const similarities = cosineSimilarity(gemini_embeddings[i], gemini_embeddings[j]);
-                    gemini_weights[i][j] = similarities * GEMINI_MAX_SCORE;
-                    gemini_weights[j][i] = similarities * GEMINI_MAX_SCORE;
-                }
-            }
-
-            min_weight = Infinity;
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    min_weight = Math.min(min_weight, gemini_weights[i][j]);
-                }
-            }
-
-
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    gemini_weights[i][j] -= min_weight;
-                }
-
-                gemini_weights[i][i] = 0;
-
-                const T = 0.5;
-                let max_weight = 0;
-
-                for (let j = 0; j < n; j++) {
-                    if (isQuestion[i] === isQuestion[j]) {
-                        gemini_weights[i][j] *= T;
-                    }
-                    if (!isQuestion[i] === !isQuestion[j]) {
-                        gemini_weights[i][j] *= T;
-                    }
-                }
-
-            }
-
-            //////////////////////////////////weight + gemini
-            for(let i = 0; i < n; i++) {
-                for(let j = 0; j < n; j++) {
-                    weights[i][j] += gemini_weights[i][j];
-                }
-            }
-
-       } catch (error) {
-            console.log(error);
-       }
-
-
-
-       
-        const m_KM = new KMMatcher(weights);
-
-        logger.info(`Running KM Algorithm..., QuestionCnt:${questionCnt}`);
+        const ela_KM = new KMMatcher(elasticScores);
+        logger.info(`Running KM Algorithm...`);
 
         startTime = Date.now();
 
-        const best = m_KM.solve();
+        const ela_best = ela_KM.solve();
 
-        logger.info(`KM Algorithm took ${Date.now() - startTime}ms`);
+        logger.info(`Ela KM Algorithm took ${Date.now() - startTime}ms`);
+        let print = {}
+        dangerous_questions.map(dq => {
+            if(!print[dq]) print[dq] = [];
+            print[dq].push(m_KM.xy[dq]);
+            print[dq].push(stella_KM.xy[dq]);
+            print[dq].push(ela_KM.xy[dq]);
+            print[dq].push(marco1_KM.xy[dq]);
+            print[dq].push(marco2_KM.xy[dq]);
+            print[dq].push(marco3_KM.xy[dq]);
+            print[dq].push(true_pairs.get(dq));
+            let flag_array = Array(TEXT_ARRAY_LENGTH).fill(0);
+            flag_array[m_KM.xy[dq]] += 1.3;
+            flag_array[stella_KM.xy[dq]] += 0.8;
+            flag_array[ela_KM.xy[dq]] += 1;
+            flag_array[marco1_KM.xy[dq]] += 0.3;
+            flag_array[marco2_KM.xy[dq]] += 0.3;
+            flag_array[marco3_KM.xy[dq]] += 0.3;
 
-        
+            let max_cnt = 0;
+            let correct = -1;
+
+            for(let i = 0; i < TEXT_ARRAY_LENGTH; i++) {
+                if(flag_array[i] > max_cnt){
+                    max_cnt = flag_array[i];
+                    correct = i;
+                }
+            }
+
+            m_KM.xy[dq] = correct;
+
+        })
+
+        logger.info(print)
+
+        // out put with file
         let will_write = "";
         weights.map((weight, i) => {
             let tmp = weight.map((item, j) => {
